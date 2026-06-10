@@ -1,0 +1,29 @@
+name: Changelog Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  changelog:
+    name: Verify CHANGELOG.md was updated
+    runs-on: ubuntu-latest
+    if: >-
+      !contains(github.event.pull_request.labels.*.name, 'skip-changelog')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check CHANGELOG.md was updated
+        run: |
+          BASE_BRANCH="${{ github.base_ref }}"
+          if ! git diff --name-only "origin/${BASE_BRANCH}"...HEAD | grep -q '^CHANGELOG\.md$'; then
+            echo "::error::CHANGELOG.md must be updated before this pull request can be merged."
+            echo "Add an entry under [Unreleased] in CHANGELOG.md."
+            echo "For trivial changes, add the 'skip-changelog' label to bypass this check."
+            exit 1
+          fi
+          echo "CHANGELOG.md was updated."
