@@ -1,5 +1,3 @@
-import { runCreate, printCreateHelp } from './create.js';
-import { runDoctor, printDoctorHelp } from './doctor.js';
 import { BRAND_NAME, TAGLINE, WEBSITE_URL } from './constants.js';
 
 function printMainHelp() {
@@ -18,7 +16,7 @@ Options:
 
 Quick start:
   npm create igivafuk@latest my-app
-  npx igivafuk doctor
+  npx igivafuk@latest doctor
 
 Website: ${WEBSITE_URL}
 `);
@@ -33,11 +31,13 @@ export async function runCli(argv = process.argv) {
   }
 
   if (command === 'create') {
+    const { runCreate } = await import('./create.js');
     await runCreate(['node', 'create-igivafuk', ...rest]);
     return;
   }
 
   if (command === 'doctor') {
+    const { runDoctor } = await import('./doctor.js');
     await runDoctor(['node', 'igivafuk', 'doctor', ...rest]);
     return;
   }

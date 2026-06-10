@@ -28,6 +28,11 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Verify npm pack contents
+        run: |
+          cd packages/create-igivafuk
+          npm pack --dry-run | grep -E 'dist/|templates/'
+
       - name: Smoke test scaffold
         run: |
           node packages/create-igivafuk/bin/create-igivafuk.js smoke-test-app -d "Smoke test" -y --no-git

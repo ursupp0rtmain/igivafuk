@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-06-10
+
+### Fixed
+
+- Bundle CLI with esbuild so `@clack/prompts` is included in the published package
+- Fix `npx igivafuk doctor` failing when dependencies are not hoisted locally
+- Use dynamic imports in CLI so `doctor` does not load the `create` module
+- Fix template path resolution for bundled distribution builds
+
+## [0.1.0] - 2026-06-10
+
 ### Added
 
 - `create-igivafuk` npm package — CLI to scaffold structured, agent-ready projects

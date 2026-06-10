@@ -27,8 +27,10 @@ npx create-igivafuk my-app -d "My awesome SaaS" -y
 Check an existing project:
 
 ```bash
-npx igivafuk doctor
+npx igivafuk@latest doctor
 ```
+
+Use `@latest` to avoid resolving a local monorepo copy during development.
 
 ## What you get
 

@@ -1,7 +1,2 @@
 #!/usr/bin/env node
-import { runCli } from '../src/cli.js';
-
-runCli(process.argv).catch((error) => {
-  console.error(error instanceof Error ? error.message : error);
-  process.exit(1);
-});
+import '../dist/cli.js';

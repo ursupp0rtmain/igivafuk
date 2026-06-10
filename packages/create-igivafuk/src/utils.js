@@ -3,10 +3,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { TEXT_EXTENSIONS } from './constants.js';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 export function getTemplateDir() {
-  return path.resolve(__dirname, '../templates/default');
+  const packageRoot = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    '..',
+  );
+  return path.join(packageRoot, 'templates', 'default');
 }
 
 export function toKebabCase(value) {
