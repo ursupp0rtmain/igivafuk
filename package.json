@@ -1,0 +1,28 @@
+{
+  "name": "igivafuk",
+  "private": true,
+  "description": "Structure over slop — scaffold agent-ready projects with create-igivafuk",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm test --workspaces --if-present",
+    "create-igivafuk": "node packages/create-igivafuk/bin/create-igivafuk.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ursupp0rtmain/startup.git"
+  },
+  "keywords": [
+    "igivafuk",
+    "create-igivafuk",
+    "ai",
+    "agents",
+    "scaffold",
+    "starter"
+  ],
+  "license": "MIT"
+}

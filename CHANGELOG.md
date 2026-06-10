@@ -7,14 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-06-10
+
+### Fixed
+
+- Bundle CLI with esbuild so `@clack/prompts` is included in the published package
+- Fix `npx igivafuk doctor` failing when dependencies are not hoisted locally
+- Use dynamic imports in CLI so `doctor` does not load the `create` module
+- Fix template path resolution for bundled distribution builds
+
+## [0.1.0] - 2026-06-10
+
 ### Added
 
-- Initial project scaffolding with agent-friendly repository structure
-- Comprehensive `.gitignore` for common tech stacks
-- `CHANGELOG.md` with Keep a Changelog format
-- `AGENTS.md` with rules for AI-assisted development
-- `CONTRIBUTING.md` with Git workflow and changelog policy
-- GitHub Actions workflow to enforce changelog updates on pull requests
-- Pull request and issue templates
-- Documentation placeholders (`docs/architecture.md`, ADR template)
-- Local changelog check script (`scripts/check-changelog.sh`)
+- `create-igivafuk` npm package — CLI to scaffold structured, agent-ready projects
+- `igivafuk doctor` command to verify project structure and score compliance
+- Default template with `AGENTS.md`, changelog CI, ADRs, and igivafuk branding
+- Monorepo structure with npm workspaces
+- CI workflow for package tests and scaffold smoke test
+- Product README with igivafuk positioning (structure over slop)

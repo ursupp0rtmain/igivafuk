@@ -1,143 +1,34 @@
 # OS
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 Desktop.ini
 
-# Editors & IDEs
+# Editors
 .idea/
-*.iml
 *.swp
-*.swo
-*~
-.project
-.classpath
-.settings/
-*.sublime-project
-*.sublime-workspace
 .cursor/
 
-# VS Code (keep shared settings if needed)
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
-
-# Secrets & credentials
+# Secrets
 .env
 .env.*
 !.env.example
-*.pem
-*.key
-*.p12
-*.pfx
-credentials.json
-secrets.json
-*.secret
 
-# Node / JavaScript / TypeScript
+# Build output
+packages/create-igivafuk/dist/
+
+# Node
 node_modules/
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-.pnpm-store/
 dist/
-build/
-.next/
-.nuxt/
-.output/
-.turbo/
-.parcel-cache/
-.cache/
 coverage/
-.nyc_output/
 *.tsbuildinfo
-.eslintcache
-.stylelintcache
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-.venv/
-venv/
-env/
-ENV/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-*.egg-info/
-.eggs/
-dist/
-*.egg
-pip-log.txt
-pip-delete-this-directory.txt
-htmlcov/
-.tox/
-.nox/
-celerybeat-schedule
-celerybeat.pid
+# Test output
+smoke-test-app/
+test-output/
+igivafuk-test-*/
 
-# Go
-bin/
-vendor/
-
-# Rust
-target/
-
-# Java / Kotlin
-*.class
-*.jar
-*.war
-*.ear
-.gradle/
-build/
-out/
+# Logs & temp
 *.log
-
-# .NET
-bin/
-obj/
-*.user
-*.suo
-
-# Ruby
-*.gem
-.bundle/
-vendor/bundle/
-
-# PHP
-vendor/
-
-# Build & output
-out/
 tmp/
 temp/
-*.bak
-*.tmp
-*.orig
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-
-# Docker (local overrides, not images)
-docker-compose.override.yml
-.docker/
-
-# Database
-*.sqlite
-*.sqlite3
-*.db
-
-# Misc
-.cache/
-.local/
-*.local
