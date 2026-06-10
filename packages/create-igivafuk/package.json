@@ -1,0 +1,42 @@
+{
+  "name": "create-igivafuk",
+  "version": "0.1.0",
+  "description": "Scaffold structured, agent-ready projects. No AI slop — build something good.",
+  "type": "module",
+  "bin": {
+    "create-igivafuk": "./bin/create-igivafuk.js",
+    "igivafuk": "./bin/igivafuk.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "templates"
+  ],
+  "scripts": {
+    "test": "node --test test/*.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.10.1"
+  },
+  "keywords": [
+    "cli",
+    "scaffold",
+    "starter",
+    "ai",
+    "agents",
+    "cursor",
+    "igivafuk",
+    "changelog",
+    "structure"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ursupp0rtmain/startup.git",
+    "directory": "packages/create-igivafuk"
+  },
+  "homepage": "https://idontgivaf.uk"
+}

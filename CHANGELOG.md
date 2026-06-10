@@ -9,12 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial project scaffolding with agent-friendly repository structure
-- Comprehensive `.gitignore` for common tech stacks
-- `CHANGELOG.md` with Keep a Changelog format
-- `AGENTS.md` with rules for AI-assisted development
-- `CONTRIBUTING.md` with Git workflow and changelog policy
-- GitHub Actions workflow to enforce changelog updates on pull requests
-- Pull request and issue templates
-- Documentation placeholders (`docs/architecture.md`, ADR template)
-- Local changelog check script (`scripts/check-changelog.sh`)
+- `create-igivafuk` npm package — CLI to scaffold structured, agent-ready projects
+- `igivafuk doctor` command to verify project structure and score compliance
+- Default template with `AGENTS.md`, changelog CI, ADRs, and igivafuk branding
+- Monorepo structure with npm workspaces
+- CI workflow for package tests and scaffold smoke test
+- Product README with igivafuk positioning (structure over slop)

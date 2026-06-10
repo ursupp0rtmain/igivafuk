@@ -5,12 +5,13 @@
 ## Checklist
 
 - [ ] `CHANGELOG.md` updated under `[Unreleased]`
-- [ ] Tests pass (`npm test`)
-- [ ] CLI smoke-tested if CLI changed
+- [ ] `AGENTS.md` rules followed (minimal scope, no secrets)
+- [ ] `docs/architecture.md` updated if design changed
 
 ## Type of change
 
 - [ ] Feature
 - [ ] Bug fix
 - [ ] Documentation
+- [ ] Refactor
 - [ ] Infrastructure / CI

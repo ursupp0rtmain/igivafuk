@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test create-igivafuk
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Smoke test scaffold
+        run: |
+          node packages/create-igivafuk/bin/create-igivafuk.js smoke-test-app -d "Smoke test" -y --no-git
+          node packages/create-igivafuk/bin/igivafuk.js doctor smoke-test-app --json
