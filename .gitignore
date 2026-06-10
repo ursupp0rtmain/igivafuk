@@ -31,3 +31,4 @@ igivafuk-test-*/
 *.log
 tmp/
 temp/
+verify-app/
