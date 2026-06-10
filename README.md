@@ -99,9 +99,11 @@ npx igivafuk doctor my-test-app
 
 ## Publish to npm
 
+From the **repository root** (not `packages/create-igivafuk/`):
+
 ```bash
-cd packages/create-igivafuk
-npm publish --access public
+npm install
+npm run publish:cli
 ```
 
 ## Links

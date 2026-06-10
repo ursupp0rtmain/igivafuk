@@ -13,13 +13,12 @@ Desktop.ini
 .env.*
 !.env.example
 
-# Build output
-packages/create-igivafuk/dist/
-
 # Node
 node_modules/
 npm-debug.log*
 dist/
+!packages/create-igivafuk/dist/
+!packages/create-igivafuk/dist/**
 coverage/
 *.tsbuildinfo
 

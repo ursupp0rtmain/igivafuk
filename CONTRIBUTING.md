@@ -5,8 +5,8 @@ Thanks for helping people build structured projects instead of AI slop.
 ## Setup
 
 ```bash
-git clone https://github.com/ursupp0rtmain/startup.git
-cd startup
+git clone https://github.com/ursupp0rtmain/igivafuk.git
+cd igivafuk
 npm install
 npm test
 ```
@@ -26,15 +26,33 @@ After template changes, run a local scaffold to verify:
 
 ```bash
 npm run create-igivafuk -- test-output -y --no-git
-npx igivafuk doctor test-output
+npx igivafuk@latest doctor test-output
 ```
 
-## Publishing
+## Publishing to npm
 
-Maintainers publish from `packages/create-igivafuk`:
+**Always publish from the repository root**, not from `packages/create-igivafuk/`:
 
 ```bash
-npm publish --access public
+# From repo root (the folder that contains package.json + packages/)
+git pull origin main
+npm run publish:cli
 ```
+
+Or step by step:
+
+```bash
+npm install
+npm run build
+npm publish -w create-igivafuk --access public
+```
+
+### Common mistakes
+
+| Problem | Fix |
+|---------|-----|
+| `cd packages/create-igivafuk` fails | You're in the wrong folder — use repo root |
+| `Cannot find package 'esbuild'` | Run `npm install` from **repo root** first |
+| `igivafuk/igivafuk/` nested path | `cd` to the outer repo root with `package.json` |
 
 Bump version in `packages/create-igivafuk/package.json` and update `CHANGELOG.md` before publishing.

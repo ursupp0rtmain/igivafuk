@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Publish workflow: commit `dist/`, npx esbuild fallback, `npm run publish:cli` from repo root
+
 ## [0.1.1] - 2026-06-10
 
 ### Fixed
