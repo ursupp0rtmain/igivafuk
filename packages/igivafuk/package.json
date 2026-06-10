@@ -1,0 +1,39 @@
+{
+  "name": "igivafuk",
+  "version": "0.1.2",
+  "description": "Check and manage igivafuk structured projects — doctor command",
+  "type": "module",
+  "bin": {
+    "igivafuk": "./bin/igivafuk.js"
+  },
+  "files": [
+    "bin"
+  ],
+  "scripts": {
+    "test": "node --test test/*.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "create-igivafuk": "^0.1.2"
+  },
+  "keywords": [
+    "igivafuk",
+    "doctor",
+    "cli",
+    "ai",
+    "agents",
+    "structure"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ursupp0rtmain/igivafuk.git",
+    "directory": "packages/igivafuk"
+  },
+  "bugs": {
+    "url": "https://github.com/ursupp0rtmain/igivafuk/issues"
+  },
+  "homepage": "https://idontgivaf.uk"
+}

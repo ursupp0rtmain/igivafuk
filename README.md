@@ -27,10 +27,10 @@ npx create-igivafuk my-app -d "My awesome SaaS" -y
 Check an existing project:
 
 ```bash
-npx igivafuk@latest doctor
+npx igivafuk doctor
 ```
 
-Use `@latest` to avoid resolving a local monorepo copy during development.
+Requires the `igivafuk` package on npm (published alongside `create-igivafuk`).
 
 ## What you get
 
@@ -53,8 +53,8 @@ Every scaffolded project includes:
 |---------|-------------|
 | `npm create igivafuk@latest <name>` | Scaffold a new project |
 | `npx create-igivafuk <name>` | Same, via npx |
-| `npx igivafuk doctor [dir]` | Verify project structure |
-| `npx igivafuk create <name>` | Scaffold via main CLI |
+| `npx igivafuk doctor [dir]` | Verify project structure (`igivafuk` package) |
+| `npx igivafuk create <name>` | Scaffold via main CLI (`igivafuk` package) |
 
 ### Options
 
@@ -105,6 +105,8 @@ From the **repository root** (not `packages/create-igivafuk/`):
 npm install
 npm run publish:cli
 ```
+
+Publishes both `create-igivafuk` and `igivafuk` packages. Order matters — `igivafuk` depends on `create-igivafuk`.
 
 ## Links
 

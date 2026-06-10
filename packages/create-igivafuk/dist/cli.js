@@ -1088,7 +1088,7 @@ Options:
 
 Quick start:
   npm create igivafuk@latest my-app
-  npx igivafuk@latest doctor
+  npx igivafuk doctor
 
 Website: ${WEBSITE_URL}
 `);

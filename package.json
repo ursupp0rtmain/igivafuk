@@ -9,7 +9,7 @@
     "build": "npm run build -w create-igivafuk",
     "test": "npm test --workspaces --if-present",
     "create-igivafuk": "node packages/create-igivafuk/bin/create-igivafuk.js",
-    "publish:cli": "npm install && npm run build -w create-igivafuk && npm publish -w create-igivafuk --access public"
+    "publish:cli": "npm install && npm run build -w create-igivafuk && npm publish -w create-igivafuk --access public && npm publish -w igivafuk --access public"
   },
   "engines": {
     "node": ">=18"

@@ -26,7 +26,7 @@ After template changes, run a local scaffold to verify:
 
 ```bash
 npm run create-igivafuk -- test-output -y --no-git
-npx igivafuk@latest doctor test-output
+npx igivafuk doctor test-output
 ```
 
 ## Publishing to npm
@@ -44,7 +44,10 @@ Or step by step:
 ```bash
 npm install
 npm run build
-npm publish -w create-igivafuk --access public
+npm run publish:cli
+```
+
+This publishes `create-igivafuk` first, then `igivafuk` (doctor CLI).
 ```
 
 ### Common mistakes

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-06-10
+
+### Added
+
+- Separate `igivafuk` npm package so `npx igivafuk doctor` works (previously 404 — only `create-igivafuk` existed)
+
 ### Fixed
 
 - Publish workflow: commit `dist/`, npx esbuild fallback, `npm run publish:cli` from repo root
