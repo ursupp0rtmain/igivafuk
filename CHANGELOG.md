@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-06-10
+
+### Fixed
+
+- Template `.gitignore` renamed to `_gitignore` so npm includes it in published tarball (npm never packs `.gitignore` files)
+- `bin` paths in package.json normalized to avoid npm publish warnings
+
 ### Added
 
 - GitHub Actions workflow `publish-npm.yml` for one-click npm publish via `NPM_TOKEN` secret

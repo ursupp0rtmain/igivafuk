@@ -1,11 +1,11 @@
 {
   "name": "create-igivafuk",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Scaffold structured, agent-ready projects. No AI slop — build something good.",
   "type": "module",
   "bin": {
-    "create-igivafuk": "./bin/create-igivafuk.js",
-    "igivafuk": "./bin/igivafuk.js"
+    "create-igivafuk": "bin/create-igivafuk.js",
+    "igivafuk": "bin/igivafuk.js"
   },
   "files": [
     "bin",

@@ -721,10 +721,14 @@ function applyTemplate(content, vars) {
     return result.replaceAll(`{{${key}}}`, value);
   }, content);
 }
+function mapTemplateFileName(name) {
+  if (name === "_gitignore") return ".gitignore";
+  return name;
+}
 function isTextFile(filePath) {
   const basename = path.basename(filePath);
   const ext = path.extname(filePath);
-  if (basename === ".gitkeep" || basename === ".gitignore" || basename === ".editorconfig") {
+  if (basename === ".gitkeep" || basename === ".gitignore" || basename === "_gitignore" || basename === ".editorconfig") {
     return true;
   }
   return TEXT_EXTENSIONS.has(ext);
@@ -734,7 +738,8 @@ async function copyTemplate({ templateDir, targetDir, vars }) {
   const entries = await fs.readdir(templateDir, { withFileTypes: true });
   for (const entry of entries) {
     const sourcePath = path.join(templateDir, entry.name);
-    const destPath = path.join(targetDir, entry.name);
+    const destName = mapTemplateFileName(entry.name);
+    const destPath = path.join(targetDir, destName);
     if (entry.isDirectory()) {
       await copyTemplate({ templateDir: sourcePath, targetDir: destPath, vars });
       continue;
