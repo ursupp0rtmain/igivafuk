@@ -7,7 +7,7 @@ Follow these rules on every task.
 ## Before you start
 
 1. Read `README.md` for project context.
-2. Read surrounding code in `src/` before making changes — match existing conventions.
+2. Read surrounding code before making changes — match existing conventions.
 
 ## Branch workflow
 
@@ -30,7 +30,6 @@ Follow these rules on every task.
 - **No secrets** — never commit `.env`, API keys, or credentials. Use `.env.example` for new vars.
 - **Reuse existing patterns** — extend existing code rather than reimplementing.
 - **Comments** — only for non-obvious logic; code should be self-explanatory.
-- **Tests** — add tests when they cover real behavior.
 
 ## Quality bar
 

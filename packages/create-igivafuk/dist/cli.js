@@ -46,9 +46,7 @@ var init_constants = __esm({
       ".gitignore",
       ".editorconfig",
       ".github/workflows/changelog-check.yml",
-      ".github/pull_request_template.md",
-      "src/.gitkeep",
-      "tests/.gitkeep"
+      ".github/pull_request_template.md"
     ];
     TEXT_EXTENSIONS = /* @__PURE__ */ new Set([
       ".md",

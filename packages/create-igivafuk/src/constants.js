@@ -12,8 +12,6 @@ export const REQUIRED_FILES = [
   '.editorconfig',
   '.github/workflows/changelog-check.yml',
   '.github/pull_request_template.md',
-  'src/.gitkeep',
-  'tests/.gitkeep',
 ];
 
 export const TEXT_EXTENSIONS = new Set([

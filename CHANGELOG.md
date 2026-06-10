@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-06-10
+
+### Changed
+
+- Remove `src/`, `tests/`, and `.github/ISSUE_TEMPLATE/` from default scaffold
+- `igivafuk doctor` now checks 8 required files
+
 ## [0.1.4] - 2026-06-10
 
 ### Changed

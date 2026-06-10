@@ -10,4 +10,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial project scaffolded with [igivafuk]({{WEBSITE_URL}}) (`create-igivafuk@{{IGIVAFUK_VERSION}}`)
-- Minimal structure: `AGENTS.md`, changelog CI, `src/`, `tests/`
+- Minimal structure: `AGENTS.md`, changelog CI, contribution workflow

@@ -16,9 +16,7 @@ Replace this section with your product vision once you know what you're building
 
 ```
 {{PROJECT_SLUG}}/
-├── .github/          # CI workflow and PR template
-├── src/              # Application source code
-├── tests/            # Automated tests
+├── .github/          # Changelog CI and PR template
 ├── AGENTS.md         # Rules for AI agents
 ├── CHANGELOG.md      # Project changelog (required on every PR)
 └── CONTRIBUTING.md   # Contribution workflow
