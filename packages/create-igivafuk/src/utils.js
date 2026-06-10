@@ -113,10 +113,3 @@ export async function initGit(targetDir) {
   await exec('git', ['add', '.'], { cwd: targetDir });
   await exec('git', ['commit', '-m', 'Initial commit from create-igivafuk'], { cwd: targetDir });
 }
-
-export async function makeScriptExecutable(targetDir) {
-  const scriptPath = path.join(targetDir, 'scripts/check-changelog.sh');
-  if (await pathExists(scriptPath)) {
-    await fs.chmod(scriptPath, 0o755);
-  }
-}

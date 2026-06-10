@@ -768,12 +768,6 @@ async function initGit(targetDir) {
   await exec("git", ["add", "."], { cwd: targetDir });
   await exec("git", ["commit", "-m", "Initial commit from create-igivafuk"], { cwd: targetDir });
 }
-async function makeScriptExecutable(targetDir) {
-  const scriptPath = path.join(targetDir, "scripts/check-changelog.sh");
-  if (await pathExists(scriptPath)) {
-    await fs.chmod(scriptPath, 493);
-  }
-}
 
 // src/create.js
 import { readFileSync } from "node:fs";
@@ -890,7 +884,6 @@ async function runCreate(argv = process.argv) {
   const s = Y2();
   s.start("Scaffolding structured project...");
   await copyTemplate({ templateDir, targetDir, vars });
-  await makeScriptExecutable(targetDir);
   if (initGitRepo) {
     s.message("Initializing git...");
     await initGit(targetDir);

@@ -42,10 +42,10 @@ Every scaffolded project includes:
 | `CHANGELOG.md` | Keep a Changelog format, CI-enforced |
 | `CONTRIBUTING.md` | Git workflow for humans and agents |
 | `.github/workflows/` | Changelog check on every PR |
-| `docs/architecture.md` | Force architecture thinking early |
-| `docs/decisions/` | ADR template for real decisions |
 | `src/` + `tests/` | Clear home for code and tests |
 | `.igivafuk.json` | Manifest for `igivafuk doctor` |
+
+No `docs/` or `scripts/` — only what you need to start with structure.
 
 ## Commands
 

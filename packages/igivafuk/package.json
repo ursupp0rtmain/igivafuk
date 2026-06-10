@@ -1,6 +1,6 @@
 {
   "name": "igivafuk",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Check and manage igivafuk structured projects — doctor command",
   "type": "module",
   "bin": {
@@ -16,7 +16,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "create-igivafuk": "^0.1.3"
+    "create-igivafuk": "^0.1.4"
   },
   "keywords": [
     "igivafuk",

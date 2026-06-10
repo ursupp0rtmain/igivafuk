@@ -5,7 +5,6 @@ import {
   copyTemplate,
   getTemplateDir,
   initGit,
-  makeScriptExecutable,
   pathExists,
   toKebabCase,
 } from './utils.js';
@@ -141,7 +140,6 @@ export async function runCreate(argv = process.argv) {
 
   s.start('Scaffolding structured project...');
   await copyTemplate({ templateDir, targetDir, vars });
-  await makeScriptExecutable(targetDir);
 
   if (initGitRepo) {
     s.message('Initializing git...');

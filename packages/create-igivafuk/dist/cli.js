@@ -45,11 +45,8 @@ var init_constants = __esm({
       "CONTRIBUTING.md",
       ".gitignore",
       ".editorconfig",
-      "docs/architecture.md",
-      "docs/decisions/0001-record-architecture-decisions.md",
       ".github/workflows/changelog-check.yml",
       ".github/pull_request_template.md",
-      "scripts/check-changelog.sh",
       "src/.gitkeep",
       "tests/.gitkeep"
     ];
@@ -801,12 +798,6 @@ async function initGit(targetDir) {
   await exec("git", ["add", "."], { cwd: targetDir });
   await exec("git", ["commit", "-m", "Initial commit from create-igivafuk"], { cwd: targetDir });
 }
-async function makeScriptExecutable(targetDir) {
-  const scriptPath = path.join(targetDir, "scripts/check-changelog.sh");
-  if (await pathExists(scriptPath)) {
-    await fs.chmod(scriptPath, 493);
-  }
-}
 var init_utils = __esm({
   "src/utils.js"() {
     init_constants();
@@ -934,7 +925,6 @@ async function runCreate(argv = process.argv) {
   const s = Y2();
   s.start("Scaffolding structured project...");
   await copyTemplate({ templateDir, targetDir, vars });
-  await makeScriptExecutable(targetDir);
   if (initGitRepo) {
     s.message("Initializing git...");
     await initGit(targetDir);
