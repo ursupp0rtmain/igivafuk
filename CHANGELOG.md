@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- GitHub Actions workflow `publish-npm.yml` for one-click npm publish via `NPM_TOKEN` secret
+- `scripts/publish.sh` and `scripts/publish.ps1` helper scripts
+
 ## [0.1.2] - 2026-06-10
 
 ### Added

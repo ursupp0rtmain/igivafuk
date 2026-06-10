@@ -31,23 +31,36 @@ npx igivafuk doctor test-output
 
 ## Publishing to npm
 
+### Option A — GitHub Actions (recommended)
+
+1. Create an npm access token: https://www.npmjs.com/settings/~youruser/tokens (type: **Automation**)
+2. Add it to GitHub: **Repo → Settings → Secrets → Actions → `NPM_TOKEN`**
+3. Run workflow: **Actions → Publish to npm → Run workflow**
+
+### Option B — Local (repo root)
+
 **Always publish from the repository root**, not from `packages/create-igivafuk/`:
 
 ```bash
-# From repo root (the folder that contains package.json + packages/)
 git pull origin main
-npm run publish:cli
+npm login
+./scripts/publish.sh
+```
+
+Windows PowerShell:
+
+```powershell
+npm login
+.\scripts\publish.ps1
 ```
 
 Or step by step:
 
 ```bash
 npm install
-npm run build
-npm run publish:cli
-```
-
-This publishes `create-igivafuk` first, then `igivafuk` (doctor CLI).
+npm run build -w create-igivafuk
+npm publish -w create-igivafuk --access public
+npm publish -w igivafuk --access public
 ```
 
 ### Common mistakes
