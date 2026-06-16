@@ -32,6 +32,14 @@ Skip prompts:
 npx @ursupp0rtmain/create-igivafuk my-app -d "My awesome SaaS" -y
 ```
 
+Pick a language-specific setup:
+
+```bash
+npx @ursupp0rtmain/create-igivafuk my-api --language go
+npx @ursupp0rtmain/create-igivafuk my-app -l typescript
+npx @ursupp0rtmain/create-igivafuk my-service -l csharp
+```
+
 Check an existing project:
 
 ```bash
@@ -54,10 +62,27 @@ Every scaffolded project includes:
 | `CHANGELOG.md` | Keep a Changelog format, CI-enforced |
 | `CONTRIBUTING.md` | Git workflow for humans and agents |
 | `.github/workflows/` | Changelog check on every PR |
-| `docs/architecture.md` | Force architecture thinking early |
-| `docs/decisions/` | ADR template for real decisions |
-| `src/` + `tests/` | Clear home for code and tests |
 | `.igivafuk.json` | Manifest for `igivafuk doctor` |
+
+By default, igivafuk creates a minimal, language-neutral scaffold. For common stacks you can choose a setup preset that adds an idiomatic folder structure:
+
+| Preset | Structure focus |
+|--------|-----------------|
+| `javascript` | `src/`, `test/`, `config/`, `docs/`, `scripts/`, Node package |
+| `typescript` | TypeScript `src/` and `test/`, `types/`, `tsconfig.json`, Node package |
+| `python` | `src/<package>/`, `tests/`, `config/`, `docs/`, `notebooks/`, `pyproject.toml` |
+| `go` | `cmd/`, `internal/`, `pkg/`, `api/`, `configs/`, Go module |
+| `rust` | Cargo layout with `src/`, integration `tests/`, `examples/`, `benches/`, `crates/` |
+| `csharp` | .NET layout with `src/`, `tests/`, `Directory.Build.props`, `config/`, `docs/`, `scripts/` |
+
+The `typescript` preset is framework-neutral. Use it for plain TypeScript libraries, CLIs, or Node services. Frameworks like Angular, React, Next.js, and NestJS need their own presets because their ideal routing, app, config, and test folders differ.
+
+Each language preset also customizes the generated Markdown files:
+
+- `README.md` includes stack-specific setup commands
+- `AGENTS.md` includes language-specific rules for AI agents
+- `CONTRIBUTING.md` includes stack-specific verification workflow
+- `docs/architecture.md` starts with language-specific boundary guidance
 
 ## Commands
 
@@ -72,8 +97,10 @@ Every scaffolded project includes:
 
 ```
 -d, --description <text>  Project description
+-l, --language <preset>   Setup preset: default, javascript, typescript, python, go, rust, csharp
 -y, --yes                 Skip prompts
 --no-git                  Skip git init
+--list-languages          Show available setup presets
 -h, --help                Show help
 ```
 

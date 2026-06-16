@@ -15,21 +15,17 @@ Replace this section with your product vision once you know what you're building
 ## Repository structure
 
 ```
-{{PROJECT_SLUG}}/
-├── .github/          # CI workflows, PR and issue templates
-├── docs/             # Architecture docs and decision records (ADRs)
-├── scripts/          # Automation scripts (e.g. changelog check)
-├── src/              # Application source code
-├── tests/            # Automated tests
-├── AGENTS.md         # Rules for AI agents
-├── CHANGELOG.md      # Project changelog (required on every PR)
-└── CONTRIBUTING.md   # Contribution workflow
+{{SETUP_STRUCTURE}}
 ```
+
+Setup preset: **{{SETUP_LABEL}}** (`{{SETUP_ID}}`)
+
+{{SETUP_DESCRIPTION}}
 
 ## Development workflow
 
 1. Create a feature branch from `main`
-2. Make changes (code, docs, config)
+2. Make changes
 3. **Update `CHANGELOG.md`** under `[Unreleased]` — enforced by CI
 4. Open a pull request
 5. Wait for CI to pass, then merge
@@ -39,6 +35,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 ## Check your structure
 
 ```bash
+cd {{PROJECT_SLUG}}
 npx igivafuk doctor
 ```
 
@@ -48,12 +45,7 @@ If you are an AI agent working on this repository, read [AGENTS.md](AGENTS.md) b
 
 ## Local setup
 
-Document your stack and setup steps here once chosen. See [docs/architecture.md](docs/architecture.md).
-
-```bash
-chmod +x scripts/check-changelog.sh
-./scripts/check-changelog.sh main
-```
+{{SETUP_LOCAL_SETUP}}
 
 ## Links
 
@@ -61,4 +53,3 @@ chmod +x scripts/check-changelog.sh
 - [Changelog](CHANGELOG.md)
 - [Contributing](CONTRIBUTING.md)
 - [Agent instructions](AGENTS.md)
-- [Architecture](docs/architecture.md)

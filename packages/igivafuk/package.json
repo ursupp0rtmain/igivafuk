@@ -1,6 +1,6 @@
 {
   "name": "@ursupp0rtmain/igivafuk",
-  "version": "0.1.3",
+  "version": "0.1.6",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
@@ -19,7 +19,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@ursupp0rtmain/create-igivafuk": "^0.1.3"
+    "@ursupp0rtmain/create-igivafuk": "^0.1.6"
   },
   "keywords": [
     "igivafuk",

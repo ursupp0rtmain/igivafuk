@@ -12,6 +12,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Publish to GitHub Packages only (`@ursupp0rtmain/create-igivafuk`, `@ursupp0rtmain/igivafuk`); npm registry workflow removed
 - Install commands now use scoped package names and require GitHub Packages registry config
 
+## [0.1.6] - 2026-06-16
+
+### Added
+
+- Add language-specific setup presets for JavaScript, TypeScript, Python, Go, Rust, and C#/.NET scaffolds.
+- Add `--language/-l` and `--list-languages` options to `create-igivafuk`.
+- Generate language-specific README, AGENTS, CONTRIBUTING, and architecture guidance for selected setup presets.
+
+## [0.1.5] - 2026-06-10
+
+### Changed
+
+- Remove `src/`, `tests/`, and `.github/ISSUE_TEMPLATE/` from default scaffold
+- `igivafuk doctor` now checks 8 required files
+
+## [0.1.4] - 2026-06-10
+
+### Changed
+
+- Slim default template: removed `docs/` and `scripts/` folders — minimal structure only
+- `igivafuk doctor` now checks 10 required files instead of 13
+
 ## [0.1.3] - 2026-06-10
 
 ### Fixed

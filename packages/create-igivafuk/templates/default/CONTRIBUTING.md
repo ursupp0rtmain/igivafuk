@@ -2,8 +2,6 @@
 
 This project uses [igivafuk]({{WEBSITE_URL}}) — structure over slop.
 
-Thank you for contributing, whether you're a human or an AI agent.
-
 ## Getting started
 
 1. Clone the repository.
@@ -16,15 +14,7 @@ Thank you for contributing, whether you're a human or an AI agent.
 
 Every pull request **must** update [`CHANGELOG.md`](CHANGELOG.md). CI enforces this via **Changelog Check**.
 
-### Local check
-
-```bash
-./scripts/check-changelog.sh main
-```
-
-### Exceptions
-
-Maintainers can add the `skip-changelog` label for trivial changes only.
+For trivial changes only, maintainers can add the `skip-changelog` label.
 
 ## Verify structure
 
@@ -32,9 +22,9 @@ Maintainers can add the `skip-changelog` label for trivial changes only.
 npx igivafuk doctor
 ```
 
-## Architecture decisions
+## {{SETUP_LABEL}} workflow
 
-Significant technical decisions go in [`docs/decisions/`](docs/decisions/) as ADRs.
+{{SETUP_CONTRIBUTING_GUIDANCE}}
 
 ## Branch protection (maintainers)
 

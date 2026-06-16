@@ -7,8 +7,7 @@ Follow these rules on every task.
 ## Before you start
 
 1. Read `README.md` for project context.
-2. Read `docs/architecture.md` for the current system design.
-3. Read surrounding code in `src/` before making changes — match existing conventions.
+2. Read surrounding code before making changes — match existing conventions.
 
 ## Branch workflow
 
@@ -31,16 +30,18 @@ Follow these rules on every task.
 - **No secrets** — never commit `.env`, API keys, or credentials. Use `.env.example` for new vars.
 - **Reuse existing patterns** — extend existing code rather than reimplementing.
 - **Comments** — only for non-obvious logic; code should be self-explanatory.
-- **Tests** — add tests when they cover real behavior.
+
+## {{SETUP_LABEL}} guidance
+
+{{SETUP_AGENT_GUIDANCE}}
 
 ## Quality bar
 
-This project uses igivafuk structure for a reason. Do not:
+Do not:
 
-- Add files without updating docs when architecture changes
 - Ship large PRs without changelog entries
 - Generate boilerplate dumps without purpose
-- Ignore `docs/decisions/` for significant technical choices
+- Add folders or files without a clear reason
 
 ## Pull requests
 
