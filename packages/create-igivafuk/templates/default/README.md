@@ -45,7 +45,7 @@ If you are an AI agent working on this repository, read [AGENTS.md](AGENTS.md) b
 
 ## Local setup
 
-Document your stack and setup steps here once chosen.
+{{SETUP_LOCAL_SETUP}}
 
 ## Links
 

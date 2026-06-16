@@ -22,6 +22,10 @@ For trivial changes only, maintainers can add the `skip-changelog` label.
 npx igivafuk doctor
 ```
 
+## {{SETUP_LABEL}} workflow
+
+{{SETUP_CONTRIBUTING_GUIDANCE}}
+
 ## Branch protection (maintainers)
 
 Enable on `main` in GitHub:

@@ -65,6 +65,13 @@ By default, igivafuk creates a minimal, language-neutral scaffold. For common st
 
 The `typescript` preset is framework-neutral. Use it for plain TypeScript libraries, CLIs, or Node services. Frameworks like Angular, React, Next.js, and NestJS need their own presets because their ideal routing, app, config, and test folders differ.
 
+Each language preset also customizes the generated Markdown files:
+
+- `README.md` includes stack-specific setup commands
+- `AGENTS.md` includes language-specific rules for AI agents
+- `CONTRIBUTING.md` includes stack-specific verification workflow
+- `docs/architecture.md` starts with language-specific boundary guidance
+
 ## Commands
 
 | Command | Description |

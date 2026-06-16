@@ -66,6 +66,10 @@ export function buildTemplateVars({ projectName, description, version, preset })
     SETUP_LANGUAGE: languageId,
     SETUP_DESCRIPTION: preset?.description ?? 'Language-neutral project guardrails.',
     SETUP_STRUCTURE: preset?.structure ?? 'Add your stack-specific structure when the project is ready.',
+    SETUP_LOCAL_SETUP: preset?.localSetup ?? 'Document the stack, install command, test command, and runtime requirements once chosen.',
+    SETUP_AGENT_GUIDANCE: preset?.agentGuidance ?? 'Keep the project small and add stack-specific structure only when the architecture needs it.',
+    SETUP_CONTRIBUTING_GUIDANCE: preset?.contributingGuidance ?? 'Document stack-specific commands in README.md before relying on them in CI or reviews.',
+    SETUP_ARCHITECTURE_GUIDE: preset?.architectureGuide ?? 'Document the important boundaries, data flows, and trade-offs for this project here.',
     YEAR: String(new Date().getFullYear()),
     IGIVAFUK_VERSION: version,
     WEBSITE_URL: 'https://idontgivaf.uk',
@@ -73,7 +77,16 @@ export function buildTemplateVars({ projectName, description, version, preset })
     TAGLINE: 'Structure over slop.',
   };
 
-  vars.SETUP_STRUCTURE = applyTemplate(vars.SETUP_STRUCTURE, vars);
+  for (const key of [
+    'SETUP_STRUCTURE',
+    'SETUP_LOCAL_SETUP',
+    'SETUP_AGENT_GUIDANCE',
+    'SETUP_CONTRIBUTING_GUIDANCE',
+    'SETUP_ARCHITECTURE_GUIDE',
+  ]) {
+    vars[key] = applyTemplate(vars[key], vars);
+  }
+
   return vars;
 }
 

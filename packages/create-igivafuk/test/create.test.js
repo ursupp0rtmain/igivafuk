@@ -65,10 +65,17 @@ describe('create-igivafuk', () => {
       const projectDir = path.join(tempRoot, projectName);
       const manifest = JSON.parse(await fs.readFile(path.join(projectDir, '.igivafuk.json'), 'utf8'));
       const readme = await fs.readFile(path.join(projectDir, 'README.md'), 'utf8');
+      const agents = await fs.readFile(path.join(projectDir, 'AGENTS.md'), 'utf8');
+      const contributing = await fs.readFile(path.join(projectDir, 'CONTRIBUTING.md'), 'utf8');
+      const architecture = await fs.readFile(path.join(projectDir, 'docs/architecture.md'), 'utf8');
 
       assert.equal(manifest.scaffold, 'typescript');
       assert.equal(manifest.language, 'typescript');
       assert.ok(readme.includes('Setup preset: **TypeScript** (`typescript`)'));
+      assert.ok(readme.includes('npm run typecheck'));
+      assert.ok(agents.includes('TypeScript-specific rules'));
+      assert.ok(contributing.includes('For TypeScript changes'));
+      assert.ok(architecture.includes('TypeScript boundaries'));
       await fs.access(path.join(projectDir, 'package.json'));
       await fs.access(path.join(projectDir, 'tsconfig.json'));
       await fs.access(path.join(projectDir, 'src/index.ts'));
@@ -105,10 +112,17 @@ describe('create-igivafuk', () => {
       const projectDir = path.join(tempRoot, projectName);
       const manifest = JSON.parse(await fs.readFile(path.join(projectDir, '.igivafuk.json'), 'utf8'));
       const readme = await fs.readFile(path.join(projectDir, 'README.md'), 'utf8');
+      const agents = await fs.readFile(path.join(projectDir, 'AGENTS.md'), 'utf8');
+      const contributing = await fs.readFile(path.join(projectDir, 'CONTRIBUTING.md'), 'utf8');
+      const architecture = await fs.readFile(path.join(projectDir, 'docs/architecture.md'), 'utf8');
 
       assert.equal(manifest.scaffold, 'csharp');
       assert.equal(manifest.language, 'csharp');
       assert.ok(readme.includes('Setup preset: **C# / .NET** (`csharp`)'));
+      assert.ok(readme.includes('dotnet build'));
+      assert.ok(agents.includes('C#/.NET-specific rules'));
+      assert.ok(contributing.includes('For C#/.NET changes'));
+      assert.ok(architecture.includes('C#/.NET boundaries'));
       await fs.access(path.join(projectDir, 'Directory.Build.props'));
       await fs.access(path.join(projectDir, 'src/SharpService/SharpService.csproj'));
       await fs.access(path.join(projectDir, 'src/SharpService/Program.cs'));
