@@ -153,7 +153,7 @@ var require_picocolors = __commonJS({
 });
 
 // src/create.js
-import path2 from "node:path";
+import path3 from "node:path";
 
 // ../../node_modules/@clack/core/dist/index.mjs
 var import_sisteransi = __toESM(require_src(), 1);
@@ -504,6 +504,32 @@ var dD = class extends x {
 };
 var A;
 A = /* @__PURE__ */ new WeakMap();
+var OD = Object.defineProperty;
+var PD = (e2, u2, t) => u2 in e2 ? OD(e2, u2, { enumerable: true, configurable: true, writable: true, value: t }) : e2[u2] = t;
+var J = (e2, u2, t) => (PD(e2, typeof u2 != "symbol" ? u2 + "" : u2, t), t);
+var LD = class extends x {
+  constructor(u2) {
+    super(u2, false), J(this, "options"), J(this, "cursor", 0), this.options = u2.options, this.cursor = this.options.findIndex(({ value: t }) => t === u2.initialValue), this.cursor === -1 && (this.cursor = 0), this.changeValue(), this.on("cursor", (t) => {
+      switch (t) {
+        case "left":
+        case "up":
+          this.cursor = this.cursor === 0 ? this.options.length - 1 : this.cursor - 1;
+          break;
+        case "down":
+        case "right":
+          this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1;
+          break;
+      }
+      this.changeValue();
+    });
+  }
+  get _value() {
+    return this.options[this.cursor];
+  }
+  changeValue() {
+    this.value = this._value.value;
+  }
+};
 var RD = class extends x {
   get valueWithCursor() {
     if (this.state === "submit") return this.value;
@@ -564,6 +590,16 @@ var b2 = (t) => {
       return import_picocolors2.default.green(C2);
   }
 };
+var G2 = (t) => {
+  const { cursor: n, options: r, style: i } = t, s = t.maxItems ?? Number.POSITIVE_INFINITY, c = Math.max(process.stdout.rows - 4, 0), a = Math.min(c, Math.max(s, 5));
+  let l2 = 0;
+  n >= l2 + a - 3 ? l2 = Math.max(Math.min(n - a + 3, r.length - a), 0) : n < l2 + 2 && (l2 = Math.max(n - 2, 0));
+  const $2 = a < r.length && l2 > 0, g2 = a < r.length && l2 + a < r.length;
+  return r.slice(l2, l2 + a).map((p2, v2, f) => {
+    const j2 = v2 === 0 && $2, E = v2 === f.length - 1 && g2;
+    return j2 || E ? import_picocolors2.default.dim("...") : i(p2, v2 + l2 === n);
+  });
+};
 var he = (t) => new RD({ validate: t.validate, placeholder: t.placeholder, defaultValue: t.defaultValue, initialValue: t.initialValue, render() {
   const n = `${import_picocolors2.default.gray(o)}
 ${b2(this.state)}  ${t.message}
@@ -604,6 +640,38 @@ ${import_picocolors2.default.cyan(d2)}
     }
   } }).prompt();
 };
+var ve = (t) => {
+  const n = (r, i) => {
+    const s = r.label ?? String(r.value);
+    switch (i) {
+      case "selected":
+        return `${import_picocolors2.default.dim(s)}`;
+      case "active":
+        return `${import_picocolors2.default.green(k2)} ${s} ${r.hint ? import_picocolors2.default.dim(`(${r.hint})`) : ""}`;
+      case "cancelled":
+        return `${import_picocolors2.default.strikethrough(import_picocolors2.default.dim(s))}`;
+      default:
+        return `${import_picocolors2.default.dim(P2)} ${import_picocolors2.default.dim(s)}`;
+    }
+  };
+  return new LD({ options: t.options, initialValue: t.initialValue, render() {
+    const r = `${import_picocolors2.default.gray(o)}
+${b2(this.state)}  ${t.message}
+`;
+    switch (this.state) {
+      case "submit":
+        return `${r}${import_picocolors2.default.gray(o)}  ${n(this.options[this.cursor], "selected")}`;
+      case "cancel":
+        return `${r}${import_picocolors2.default.gray(o)}  ${n(this.options[this.cursor], "cancelled")}
+${import_picocolors2.default.gray(o)}`;
+      default:
+        return `${r}${import_picocolors2.default.cyan(o)}  ${G2({ cursor: this.cursor, options: this.options, maxItems: t.maxItems, style: (i, s) => n(i, s ? "active" : "inactive") }).join(`
+${import_picocolors2.default.cyan(o)}  `)}
+${import_picocolors2.default.cyan(d2)}
+`;
+    }
+  } }).prompt();
+};
 var xe = (t = "") => {
   process.stdout.write(`${import_picocolors2.default.gray(d2)}  ${import_picocolors2.default.red(t)}
 
@@ -619,7 +687,7 @@ ${import_picocolors2.default.gray(d2)}  ${t}
 
 `);
 };
-var J = `${import_picocolors2.default.gray(o)}  `;
+var J2 = `${import_picocolors2.default.gray(o)}  `;
 var Y2 = ({ indicator: t = "dots" } = {}) => {
   const n = V2 ? ["\u25D2", "\u25D0", "\u25D3", "\u25D1"] : ["\u2022", "o", "O", "0"], r = V2 ? 80 : 120, i = process.env.CI === "true";
   let s, c, a = false, l2 = "", $2, g2 = performance.now();
@@ -702,19 +770,37 @@ function toKebabCase(value) {
 function toTitleCase(value) {
   return value.split(/[\s-_]+/).filter(Boolean).map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()).join(" ");
 }
-function buildTemplateVars({ projectName, description, version }) {
+function toIdentifier(value) {
+  const identifier = toKebabCase(value).replaceAll("-", "_");
+  if (!identifier) return "my_project";
+  if (/^\d/.test(identifier)) return `project_${identifier}`;
+  return identifier;
+}
+function buildTemplateVars({ projectName, description, version, preset }) {
   const slug = toKebabCase(projectName);
   const title = toTitleCase(projectName);
-  return {
+  const moduleName = toIdentifier(projectName);
+  const languageId = preset?.language ?? "none";
+  const vars = {
     PROJECT_NAME: title || "My Project",
     PROJECT_SLUG: slug || "my-project",
+    PROJECT_MODULE: moduleName,
+    PROJECT_PACKAGE: `com.example.${moduleName}`,
+    PROJECT_PACKAGE_PATH: `com/example/${moduleName}`,
     PROJECT_DESCRIPTION: description || "A structured project built with igivafuk.",
+    SETUP_ID: preset?.id ?? "default",
+    SETUP_LABEL: preset?.label ?? "Minimal",
+    SETUP_LANGUAGE: languageId,
+    SETUP_DESCRIPTION: preset?.description ?? "Language-neutral project guardrails.",
+    SETUP_STRUCTURE: preset?.structure ?? "Add your stack-specific structure when the project is ready.",
     YEAR: String((/* @__PURE__ */ new Date()).getFullYear()),
     IGIVAFUK_VERSION: version,
     WEBSITE_URL: "https://idontgivaf.uk",
     BRAND_NAME: "igivafuk",
     TAGLINE: "Structure over slop."
   };
+  vars.SETUP_STRUCTURE = applyTemplate(vars.SETUP_STRUCTURE, vars);
+  return vars;
 }
 function applyTemplate(content, vars) {
   return Object.entries(vars).reduce((result, [key, value]) => {
@@ -769,6 +855,420 @@ async function initGit(targetDir) {
   await exec("git", ["commit", "-m", "Initial commit from create-igivafuk"], { cwd: targetDir });
 }
 
+// src/presets.js
+import fs2 from "node:fs/promises";
+import path2 from "node:path";
+var DEFAULT_LANGUAGE_PRESET_ID = "default";
+var LANGUAGE_PRESETS = [
+  {
+    id: "default",
+    aliases: ["base", "minimal", "none"],
+    label: "Minimal",
+    language: "none",
+    description: "Language-neutral guardrails only. Pick this when the stack is not decided yet.",
+    structure: `{{PROJECT_SLUG}}/
++-- .github/
++-- AGENTS.md
++-- CHANGELOG.md
++-- CONTRIBUTING.md
++-- README.md`,
+    directories: [],
+    files: []
+  },
+  {
+    id: "javascript",
+    aliases: ["js", "node", "nodejs"],
+    label: "JavaScript",
+    language: "javascript",
+    description: "Node-friendly JavaScript layout with source, tests, config, scripts, and docs separated.",
+    structure: `{{PROJECT_SLUG}}/
++-- src/
+|   +-- index.js
++-- test/
+|   +-- index.test.js
++-- config/
++-- docs/
+|   +-- architecture.md
++-- scripts/
++-- package.json`,
+    directories: ["config", "docs", "scripts", "src", "test"],
+    files: [
+      {
+        path: "package.json",
+        content: `{
+  "name": "{{PROJECT_SLUG}}",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test"
+  }
+}
+`
+      },
+      {
+        path: "src/index.js",
+        content: `export function main() {
+  return '{{PROJECT_SLUG}} is ready.';
+}
+
+if (import.meta.url === \`file://\${process.argv[1]}\`) {
+  console.log(main());
+}
+`
+      },
+      {
+        path: "test/index.test.js",
+        content: `import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { main } from '../src/index.js';
+
+test('main returns a ready message', () => {
+  assert.equal(main(), '{{PROJECT_SLUG}} is ready.');
+});
+`
+      },
+      {
+        path: "docs/architecture.md",
+        content: `# Architecture
+
+Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+`
+      },
+      { path: "config/.gitkeep", content: "" },
+      { path: "scripts/.gitkeep", content: "" }
+    ]
+  },
+  {
+    id: "typescript",
+    aliases: ["ts", "node-ts", "nodejs-ts"],
+    label: "TypeScript",
+    language: "typescript",
+    description: "TypeScript layout with compiled source, tests, typed config, scripts, and docs separated.",
+    structure: `{{PROJECT_SLUG}}/
++-- src/
+|   +-- index.ts
++-- test/
+|   +-- index.test.ts
++-- types/
++-- config/
++-- docs/
+|   +-- architecture.md
++-- scripts/
++-- package.json
++-- tsconfig.json`,
+    directories: ["config", "docs", "scripts", "src", "test", "types"],
+    files: [
+      {
+        path: "package.json",
+        content: `{
+  "name": "{{PROJECT_SLUG}}",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc -p tsconfig.json",
+    "typecheck": "npx tsc --noEmit",
+    "test": "npm run build && node --test dist/**/*.test.js"
+  }
+}
+`
+      },
+      {
+        path: "tsconfig.json",
+        content: `{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "declaration": true,
+    "outDir": "dist",
+    "rootDir": ".",
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts", "types/**/*.ts"]
+}
+`
+      },
+      {
+        path: "src/index.ts",
+        content: `export function main(): string {
+  return '{{PROJECT_SLUG}} is ready.';
+}
+`
+      },
+      {
+        path: "test/index.test.ts",
+        content: `import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { main } from '../src/index.js';
+
+test('main returns a ready message', () => {
+  assert.equal(main(), '{{PROJECT_SLUG}} is ready.');
+});
+`
+      },
+      {
+        path: "docs/architecture.md",
+        content: `# Architecture
+
+Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+`
+      },
+      { path: "config/.gitkeep", content: "" },
+      { path: "scripts/.gitkeep", content: "" },
+      { path: "types/.gitkeep", content: "" }
+    ]
+  },
+  {
+    id: "python",
+    aliases: ["py"],
+    label: "Python",
+    language: "python",
+    description: "Python src-layout with import-safe package code, tests, config, scripts, notebooks, and docs.",
+    structure: `{{PROJECT_SLUG}}/
++-- src/
+|   +-- {{PROJECT_MODULE}}/
+|       +-- __init__.py
+|       +-- main.py
++-- tests/
+|   +-- test_smoke.py
++-- config/
++-- docs/
+|   +-- architecture.md
++-- notebooks/
++-- scripts/
++-- pyproject.toml`,
+    directories: ["config", "docs", "notebooks", "scripts", "src/{{PROJECT_MODULE}}", "tests"],
+    files: [
+      {
+        path: "pyproject.toml",
+        content: `[project]
+name = "{{PROJECT_SLUG}}"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+`
+      },
+      {
+        path: "src/{{PROJECT_MODULE}}/__init__.py",
+        content: `"""{{PROJECT_SLUG}} package."""
+
+from .main import main
+
+__all__ = ["main"]
+`
+      },
+      {
+        path: "src/{{PROJECT_MODULE}}/main.py",
+        content: `def main() -> str:
+    return "{{PROJECT_SLUG}} is ready."
+`
+      },
+      {
+        path: "tests/test_smoke.py",
+        content: `from {{PROJECT_MODULE}} import main
+
+
+def test_main_returns_ready_message() -> None:
+    assert main() == "{{PROJECT_SLUG}} is ready."
+`
+      },
+      {
+        path: "docs/architecture.md",
+        content: `# Architecture
+
+Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+`
+      },
+      { path: "config/.gitkeep", content: "" },
+      { path: "notebooks/.gitkeep", content: "" },
+      { path: "scripts/.gitkeep", content: "" }
+    ]
+  },
+  {
+    id: "go",
+    aliases: ["golang"],
+    label: "Go",
+    language: "go",
+    description: "Go module layout with cmd entrypoint, internal app code, reusable pkg space, configs, and docs.",
+    structure: `{{PROJECT_SLUG}}/
++-- cmd/
+|   +-- {{PROJECT_SLUG}}/
+|       +-- main.go
++-- internal/
+|   +-- app/
+|       +-- app.go
+|       +-- app_test.go
++-- pkg/
++-- api/
++-- configs/
++-- docs/
+|   +-- architecture.md
++-- scripts/
++-- go.mod`,
+    directories: ["api", "cmd/{{PROJECT_SLUG}}", "configs", "docs", "internal/app", "pkg", "scripts"],
+    files: [
+      {
+        path: "go.mod",
+        content: `module {{PROJECT_SLUG}}
+
+go 1.22
+`
+      },
+      {
+        path: "cmd/{{PROJECT_SLUG}}/main.go",
+        content: `package main
+
+import (
+	"fmt"
+
+	"{{PROJECT_SLUG}}/internal/app"
+)
+
+func main() {
+	fmt.Println(app.Message())
+}
+`
+      },
+      {
+        path: "internal/app/app.go",
+        content: `package app
+
+func Message() string {
+	return "{{PROJECT_SLUG}} is ready."
+}
+`
+      },
+      {
+        path: "internal/app/app_test.go",
+        content: `package app
+
+import "testing"
+
+func TestMessage(t *testing.T) {
+	if got := Message(); got != "{{PROJECT_SLUG}} is ready." {
+		t.Fatalf("Message() = %q", got)
+	}
+}
+`
+      },
+      {
+        path: "docs/architecture.md",
+        content: `# Architecture
+
+Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+`
+      },
+      { path: "api/.gitkeep", content: "" },
+      { path: "configs/.gitkeep", content: "" },
+      { path: "pkg/.gitkeep", content: "" },
+      { path: "scripts/.gitkeep", content: "" }
+    ]
+  },
+  {
+    id: "rust",
+    aliases: ["rs", "cargo"],
+    label: "Rust",
+    language: "rust",
+    description: "Cargo-ready Rust layout with library, binary entrypoint, integration tests, examples, benches, and docs.",
+    structure: `{{PROJECT_SLUG}}/
++-- src/
+|   +-- lib.rs
+|   +-- main.rs
++-- tests/
+|   +-- smoke.rs
++-- benches/
++-- crates/
++-- docs/
+|   +-- architecture.md
++-- examples/
++-- Cargo.toml`,
+    directories: ["benches", "crates", "docs", "examples", "src", "tests"],
+    files: [
+      {
+        path: "Cargo.toml",
+        content: `[package]
+name = "{{PROJECT_MODULE}}"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+`
+      },
+      {
+        path: "src/lib.rs",
+        content: `pub fn message() -> &'static str {
+    "{{PROJECT_SLUG}} is ready."
+}
+`
+      },
+      {
+        path: "src/main.rs",
+        content: `fn main() {
+    println!("{}", {{PROJECT_MODULE}}::message());
+}
+`
+      },
+      {
+        path: "tests/smoke.rs",
+        content: `#[test]
+fn message_is_ready() {
+    assert_eq!({{PROJECT_MODULE}}::message(), "{{PROJECT_SLUG}} is ready.");
+}
+`
+      },
+      {
+        path: "docs/architecture.md",
+        content: `# Architecture
+
+Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+`
+      },
+      { path: "benches/.gitkeep", content: "" },
+      { path: "crates/.gitkeep", content: "" },
+      { path: "examples/.gitkeep", content: "" }
+    ]
+  }
+];
+function resolveLanguagePreset(value = DEFAULT_LANGUAGE_PRESET_ID) {
+  const normalized = toKebabCase(value || DEFAULT_LANGUAGE_PRESET_ID);
+  return LANGUAGE_PRESETS.find((preset) => {
+    return preset.id === normalized || preset.aliases.includes(normalized);
+  });
+}
+function formatLanguagePresetList() {
+  return LANGUAGE_PRESETS.map((preset) => {
+    const aliases = preset.aliases.length > 0 ? ` (${preset.aliases.join(", ")})` : "";
+    return `  ${preset.id}${aliases} - ${preset.label}: ${preset.description}`;
+  }).join("\n");
+}
+function renderRelativePath(templatePath, vars) {
+  const rendered = applyTemplate(templatePath, vars);
+  const normalized = path2.normalize(rendered);
+  if (path2.isAbsolute(normalized) || normalized === ".." || normalized.startsWith(`..${path2.sep}`)) {
+    throw new Error(`Unsafe preset path: ${templatePath}`);
+  }
+  return normalized;
+}
+async function applyLanguagePreset({ targetDir, vars, preset }) {
+  for (const directory of preset.directories) {
+    const relativePath = renderRelativePath(directory, vars);
+    await fs2.mkdir(path2.join(targetDir, relativePath), { recursive: true });
+  }
+  for (const file of preset.files) {
+    const relativePath = renderRelativePath(file.path, vars);
+    const filePath = path2.join(targetDir, relativePath);
+    await fs2.mkdir(path2.dirname(filePath), { recursive: true });
+    await fs2.writeFile(filePath, applyTemplate(file.content, vars), "utf8");
+  }
+}
+
 // src/create.js
 import { readFileSync } from "node:fs";
 import { fileURLToPath as fileURLToPath2 } from "node:url";
@@ -781,9 +1281,11 @@ function parseArgs(argv) {
   const options = {
     projectName: void 0,
     description: void 0,
+    language: DEFAULT_LANGUAGE_PRESET_ID,
     yes: false,
     git: true,
-    help: false
+    help: false,
+    listLanguages: false
   };
   for (let i = 0; i < args.length; i += 1) {
     const arg = args[i];
@@ -793,6 +1295,10 @@ function parseArgs(argv) {
       options.yes = true;
     } else if (arg === "--no-git") {
       options.git = false;
+    } else if (arg === "--language" || arg === "-l" || arg === "--template" || arg === "-t") {
+      options.language = args[++i];
+    } else if (arg === "--list-languages" || arg === "--list-templates") {
+      options.listLanguages = true;
     } else if (arg === "--description" || arg === "-d") {
       options.description = args[++i];
     } else if (!arg.startsWith("-") && !options.projectName) {
@@ -811,13 +1317,16 @@ Usage:
 
 Options:
   -d, --description <text>  Project description
+  -l, --language <preset>   Setup preset: default, javascript, typescript, python, go, rust
   -y, --yes                 Skip prompts and use defaults
   --no-git                  Skip git init
+  --list-languages          Show available setup presets
   -h, --help                Show help
 
 Examples:
   npm create igivafuk@latest my-app
   npx create-igivafuk my-app -d "My awesome SaaS" -y
+  npx create-igivafuk api -l go
 
 Learn more: ${WEBSITE_URL}
 `);
@@ -828,9 +1337,16 @@ async function runCreate(argv = process.argv) {
     printCreateHelp();
     return;
   }
+  if (options.listLanguages) {
+    console.log(`${BRAND_NAME} setup presets:
+
+${formatLanguagePresetList()}`);
+    return;
+  }
   Ie(` ${BRAND_NAME} \u2014 you said you didn't give a f***, turns out you do`);
   let projectName = options.projectName;
   let description = options.description ?? "";
+  let language = options.language;
   let initGitRepo = options.git;
   if (!options.yes) {
     if (!projectName) {
@@ -858,6 +1374,21 @@ async function runCreate(argv = process.argv) {
       process.exit(0);
     }
     description = descResult;
+    const initialPreset = resolveLanguagePreset(language) ?? resolveLanguagePreset(DEFAULT_LANGUAGE_PRESET_ID);
+    const languageResult = await ve({
+      message: "Setup preset",
+      initialValue: initialPreset.id,
+      options: LANGUAGE_PRESETS.map((preset2) => ({
+        value: preset2.id,
+        label: preset2.label,
+        hint: preset2.description
+      }))
+    });
+    if (pD(languageResult)) {
+      xe("Cancelled.");
+      process.exit(0);
+    }
+    language = languageResult;
     const gitResult = await ye({
       message: "Initialize git repository?",
       initialValue: initGitRepo
@@ -873,17 +1404,25 @@ async function runCreate(argv = process.argv) {
     printCreateHelp();
     process.exit(1);
   }
-  const targetDir = path2.resolve(process.cwd(), projectName);
+  const preset = resolveLanguagePreset(language);
+  if (!preset) {
+    console.error(`Error: unknown setup preset "${language}".`);
+    console.error(`Available presets:
+${formatLanguagePresetList()}`);
+    process.exit(1);
+  }
+  const targetDir = path3.resolve(process.cwd(), projectName);
   if (await pathExists(targetDir)) {
     console.error(`Error: directory "${projectName}" already exists.`);
     process.exit(1);
   }
   const version = getPackageVersion();
-  const vars = buildTemplateVars({ projectName, description, version });
+  const vars = buildTemplateVars({ projectName, description, version, preset });
   const templateDir = getTemplateDir();
   const s = Y2();
   s.start("Scaffolding structured project...");
   await copyTemplate({ templateDir, targetDir, vars });
+  await applyLanguagePreset({ targetDir, vars, preset });
   if (initGitRepo) {
     s.message("Initializing git...");
     await initGit(targetDir);
