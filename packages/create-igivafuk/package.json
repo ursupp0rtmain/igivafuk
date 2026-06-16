@@ -1,6 +1,6 @@
 {
   "name": "create-igivafuk",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Scaffold structured, agent-ready projects. No AI slop — build something good.",
   "type": "module",
   "bin": {

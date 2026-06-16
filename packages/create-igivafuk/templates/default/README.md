@@ -15,12 +15,12 @@ Replace this section with your product vision once you know what you're building
 ## Repository structure
 
 ```
-{{PROJECT_SLUG}}/
-├── .github/          # Changelog CI and PR template
-├── AGENTS.md         # Rules for AI agents
-├── CHANGELOG.md      # Project changelog (required on every PR)
-└── CONTRIBUTING.md   # Contribution workflow
+{{SETUP_STRUCTURE}}
 ```
+
+Setup preset: **{{SETUP_LABEL}}** (`{{SETUP_ID}}`)
+
+{{SETUP_DESCRIPTION}}
 
 ## Development workflow
 
@@ -45,7 +45,7 @@ If you are an AI agent working on this repository, read [AGENTS.md](AGENTS.md) b
 
 ## Local setup
 
-Document your stack and setup steps here once chosen.
+{{SETUP_LOCAL_SETUP}}
 
 ## Links
 

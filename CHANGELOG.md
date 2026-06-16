@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-06-16
+
+### Added
+
+- Add language-specific setup presets for JavaScript, TypeScript, Python, Go, Rust, and C#/.NET scaffolds.
+- Add `--language/-l` and `--list-languages` options to `create-igivafuk`.
+- Generate language-specific README, AGENTS, CONTRIBUTING, and architecture guidance for selected setup presets.
+
 ## [0.1.5] - 2026-06-10
 
 ### Changed

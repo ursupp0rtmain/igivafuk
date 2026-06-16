@@ -31,6 +31,10 @@ Follow these rules on every task.
 - **Reuse existing patterns** — extend existing code rather than reimplementing.
 - **Comments** — only for non-obvious logic; code should be self-explanatory.
 
+## {{SETUP_LABEL}} guidance
+
+{{SETUP_AGENT_GUIDANCE}}
+
 ## Quality bar
 
 Do not:

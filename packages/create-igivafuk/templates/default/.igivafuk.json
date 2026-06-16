@@ -1,6 +1,7 @@
 {
   "version": "1",
-  "scaffold": "default",
+  "scaffold": "{{SETUP_ID}}",
+  "language": "{{SETUP_LANGUAGE}}",
   "project": "{{PROJECT_SLUG}}",
   "createdWith": "create-igivafuk@{{IGIVAFUK_VERSION}}",
   "brand": "{{BRAND_NAME}}",

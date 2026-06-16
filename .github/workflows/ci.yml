@@ -31,7 +31,7 @@ jobs:
       - name: Verify npm pack contents
         run: |
           cd packages/create-igivafuk
-          npm pack --dry-run | grep -E 'dist/|templates/'
+          npm pack --dry-run 2>&1 | grep -E 'dist/|templates/'
 
       - name: Smoke test scaffold
         run: |
