@@ -804,15 +804,23 @@ function toIdentifier(value) {
   if (/^\d/.test(identifier)) return `project_${identifier}`;
   return identifier;
 }
+function toPascalIdentifier(value) {
+  const identifier = toKebabCase(value).split("-").filter(Boolean).map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join("");
+  if (!identifier) return "MyProject";
+  if (/^\d/.test(identifier)) return `Project${identifier}`;
+  return identifier;
+}
 function buildTemplateVars({ projectName, description, version, preset }) {
   const slug = toKebabCase(projectName);
   const title = toTitleCase(projectName);
   const moduleName = toIdentifier(projectName);
+  const pascalName = toPascalIdentifier(projectName);
   const languageId = preset?.language ?? "none";
   const vars = {
     PROJECT_NAME: title || "My Project",
     PROJECT_SLUG: slug || "my-project",
     PROJECT_MODULE: moduleName,
+    PROJECT_PASCAL: pascalName,
     PROJECT_PACKAGE: `com.example.${moduleName}`,
     PROJECT_PACKAGE_PATH: `com/example/${moduleName}`,
     PROJECT_DESCRIPTION: description || "A structured project built with igivafuk.",
@@ -1305,6 +1313,112 @@ Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME
           { path: "crates/.gitkeep", content: "" },
           { path: "examples/.gitkeep", content: "" }
         ]
+      },
+      {
+        id: "csharp",
+        aliases: ["c", "c#", "cs", "dotnet", "net"],
+        label: "C# / .NET",
+        language: "csharp",
+        description: "Modern .NET layout with source project, test project space, shared build props, config, scripts, and docs.",
+        structure: `{{PROJECT_SLUG}}/
++-- src/
+|   +-- {{PROJECT_PASCAL}}/
+|       +-- {{PROJECT_PASCAL}}.csproj
+|       +-- Program.cs
++-- tests/
+|   +-- {{PROJECT_PASCAL}}.Tests/
+|       +-- {{PROJECT_PASCAL}}.Tests.csproj
+|       +-- SmokeTests.cs
++-- config/
++-- docs/
+|   +-- architecture.md
++-- scripts/
++-- Directory.Build.props`,
+        directories: [
+          "config",
+          "docs",
+          "scripts",
+          "src/{{PROJECT_PASCAL}}",
+          "tests/{{PROJECT_PASCAL}}.Tests"
+        ],
+        files: [
+          {
+            path: "Directory.Build.props",
+            content: `<Project>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>
+`
+          },
+          {
+            path: "src/{{PROJECT_PASCAL}}/{{PROJECT_PASCAL}}.csproj",
+            content: `<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+</Project>
+`
+          },
+          {
+            path: "src/{{PROJECT_PASCAL}}/Program.cs",
+            content: `namespace {{PROJECT_PASCAL}};
+
+public static class Program
+{
+    public static string Message() => "{{PROJECT_SLUG}} is ready.";
+
+    public static void Main()
+    {
+        Console.WriteLine(Message());
+    }
+}
+`
+          },
+          {
+            path: "tests/{{PROJECT_PASCAL}}.Tests/{{PROJECT_PASCAL}}.Tests.csproj",
+            content: `<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/{{PROJECT_PASCAL}}/{{PROJECT_PASCAL}}.csproj" />
+  </ItemGroup>
+</Project>
+`
+          },
+          {
+            path: "tests/{{PROJECT_PASCAL}}.Tests/SmokeTests.cs",
+            content: `using {{PROJECT_PASCAL}};
+
+namespace {{PROJECT_PASCAL}}.Tests;
+
+public static class SmokeTests
+{
+    public static void MessageIsReady()
+    {
+        if (Program.Message() != "{{PROJECT_SLUG}} is ready.")
+        {
+            throw new InvalidOperationException("Unexpected ready message.");
+        }
+    }
+}
+`
+          },
+          {
+            path: "docs/architecture.md",
+            content: `# Architecture
+
+Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+`
+          },
+          { path: "config/.gitkeep", content: "" },
+          { path: "scripts/.gitkeep", content: "" }
+        ]
       }
     ];
   }
@@ -1364,7 +1478,7 @@ Usage:
 
 Options:
   -d, --description <text>  Project description
-  -l, --language <preset>   Setup preset: default, javascript, typescript, python, go, rust
+  -l, --language <preset>   Setup preset: default, javascript, typescript, python, go, rust, csharp
   -y, --yes                 Skip prompts and use defaults
   --no-git                  Skip git init
   --list-languages          Show available setup presets
