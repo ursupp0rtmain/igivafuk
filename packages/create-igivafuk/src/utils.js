@@ -34,16 +34,30 @@ export function toIdentifier(value) {
   return identifier;
 }
 
+export function toPascalIdentifier(value) {
+  const identifier = toKebabCase(value)
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('');
+
+  if (!identifier) return 'MyProject';
+  if (/^\d/.test(identifier)) return `Project${identifier}`;
+  return identifier;
+}
+
 export function buildTemplateVars({ projectName, description, version, preset }) {
   const slug = toKebabCase(projectName);
   const title = toTitleCase(projectName);
   const moduleName = toIdentifier(projectName);
+  const pascalName = toPascalIdentifier(projectName);
   const languageId = preset?.language ?? 'none';
 
   const vars = {
     PROJECT_NAME: title || 'My Project',
     PROJECT_SLUG: slug || 'my-project',
     PROJECT_MODULE: moduleName,
+    PROJECT_PASCAL: pascalName,
     PROJECT_PACKAGE: `com.example.${moduleName}`,
     PROJECT_PACKAGE_PATH: `com/example/${moduleName}`,
     PROJECT_DESCRIPTION: description || 'A structured project built with igivafuk.',

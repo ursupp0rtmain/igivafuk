@@ -84,6 +84,46 @@ describe('create-igivafuk', () => {
     }
   });
 
+  test('scaffolds a C# project structure', async () => {
+    const projectName = 'sharp-service';
+    const originalCwd = process.cwd();
+
+    try {
+      process.chdir(tempRoot);
+      await runCreate([
+        'node',
+        'create-igivafuk',
+        projectName,
+        '-d',
+        'Sharp service',
+        '--language',
+        'c#',
+        '-y',
+        '--no-git',
+      ]);
+
+      const projectDir = path.join(tempRoot, projectName);
+      const manifest = JSON.parse(await fs.readFile(path.join(projectDir, '.igivafuk.json'), 'utf8'));
+      const readme = await fs.readFile(path.join(projectDir, 'README.md'), 'utf8');
+
+      assert.equal(manifest.scaffold, 'csharp');
+      assert.equal(manifest.language, 'csharp');
+      assert.ok(readme.includes('Setup preset: **C# / .NET** (`csharp`)'));
+      await fs.access(path.join(projectDir, 'Directory.Build.props'));
+      await fs.access(path.join(projectDir, 'src/SharpService/SharpService.csproj'));
+      await fs.access(path.join(projectDir, 'src/SharpService/Program.cs'));
+      await fs.access(path.join(projectDir, 'tests/SharpService.Tests/SharpService.Tests.csproj'));
+      await fs.access(path.join(projectDir, 'tests/SharpService.Tests/SmokeTests.cs'));
+
+      const check = await checkProject(projectDir);
+      assert.equal(check.healthy, true);
+      assert.equal(check.score, 100);
+    } finally {
+      process.chdir(originalCwd);
+      await fs.rm(path.join(tempRoot, projectName), { recursive: true, force: true });
+    }
+  });
+
   test('doctor reports missing files for empty directory', async () => {
     const emptyDir = path.join(tempRoot, 'empty');
     await fs.mkdir(emptyDir, { recursive: true });

@@ -380,6 +380,112 @@ Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME
       { path: 'examples/.gitkeep', content: '' },
     ],
   },
+  {
+    id: 'csharp',
+    aliases: ['c', 'c#', 'cs', 'dotnet', 'net'],
+    label: 'C# / .NET',
+    language: 'csharp',
+    description: 'Modern .NET layout with source project, test project space, shared build props, config, scripts, and docs.',
+    structure: `{{PROJECT_SLUG}}/
++-- src/
+|   +-- {{PROJECT_PASCAL}}/
+|       +-- {{PROJECT_PASCAL}}.csproj
+|       +-- Program.cs
++-- tests/
+|   +-- {{PROJECT_PASCAL}}.Tests/
+|       +-- {{PROJECT_PASCAL}}.Tests.csproj
+|       +-- SmokeTests.cs
++-- config/
++-- docs/
+|   +-- architecture.md
++-- scripts/
++-- Directory.Build.props`,
+    directories: [
+      'config',
+      'docs',
+      'scripts',
+      'src/{{PROJECT_PASCAL}}',
+      'tests/{{PROJECT_PASCAL}}.Tests',
+    ],
+    files: [
+      {
+        path: 'Directory.Build.props',
+        content: `<Project>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>
+`,
+      },
+      {
+        path: 'src/{{PROJECT_PASCAL}}/{{PROJECT_PASCAL}}.csproj',
+        content: `<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+</Project>
+`,
+      },
+      {
+        path: 'src/{{PROJECT_PASCAL}}/Program.cs',
+        content: `namespace {{PROJECT_PASCAL}};
+
+public static class Program
+{
+    public static string Message() => "{{PROJECT_SLUG}} is ready.";
+
+    public static void Main()
+    {
+        Console.WriteLine(Message());
+    }
+}
+`,
+      },
+      {
+        path: 'tests/{{PROJECT_PASCAL}}.Tests/{{PROJECT_PASCAL}}.Tests.csproj',
+        content: `<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/{{PROJECT_PASCAL}}/{{PROJECT_PASCAL}}.csproj" />
+  </ItemGroup>
+</Project>
+`,
+      },
+      {
+        path: 'tests/{{PROJECT_PASCAL}}.Tests/SmokeTests.cs',
+        content: `using {{PROJECT_PASCAL}};
+
+namespace {{PROJECT_PASCAL}}.Tests;
+
+public static class SmokeTests
+{
+    public static void MessageIsReady()
+    {
+        if (Program.Message() != "{{PROJECT_SLUG}} is ready.")
+        {
+            throw new InvalidOperationException("Unexpected ready message.");
+        }
+    }
+}
+`,
+      },
+      {
+        path: 'docs/architecture.md',
+        content: `# Architecture
+
+Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+`,
+      },
+      { path: 'config/.gitkeep', content: '' },
+      { path: 'scripts/.gitkeep', content: '' },
+    ],
+  },
 ];
 
 export function resolveLanguagePreset(value = DEFAULT_LANGUAGE_PRESET_ID) {

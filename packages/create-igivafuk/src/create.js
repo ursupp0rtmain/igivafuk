@@ -68,7 +68,7 @@ Usage:
 
 Options:
   -d, --description <text>  Project description
-  -l, --language <preset>   Setup preset: default, javascript, typescript, python, go, rust
+  -l, --language <preset>   Setup preset: default, javascript, typescript, python, go, rust, csharp
   -y, --yes                 Skip prompts and use defaults
   --no-git                  Skip git init
   --list-languages          Show available setup presets

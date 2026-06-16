@@ -29,6 +29,7 @@ Pick a language-specific setup:
 ```bash
 npx create-igivafuk my-api --language go
 npx create-igivafuk my-app -l typescript
+npx create-igivafuk my-service -l csharp
 ```
 
 Check an existing project:
@@ -60,6 +61,9 @@ By default, igivafuk creates a minimal, language-neutral scaffold. For common st
 | `python` | `src/<package>/`, `tests/`, `config/`, `docs/`, `notebooks/`, `pyproject.toml` |
 | `go` | `cmd/`, `internal/`, `pkg/`, `api/`, `configs/`, Go module |
 | `rust` | Cargo layout with `src/`, integration `tests/`, `examples/`, `benches/`, `crates/` |
+| `csharp` | .NET layout with `src/`, `tests/`, `Directory.Build.props`, `config/`, `docs/`, `scripts/` |
+
+The `typescript` preset is framework-neutral. Use it for plain TypeScript libraries, CLIs, or Node services. Frameworks like Angular, React, Next.js, and NestJS need their own presets because their ideal routing, app, config, and test folders differ.
 
 ## Commands
 
@@ -74,7 +78,7 @@ By default, igivafuk creates a minimal, language-neutral scaffold. For common st
 
 ```
 -d, --description <text>  Project description
--l, --language <preset>   Setup preset: default, javascript, typescript, python, go, rust
+-l, --language <preset>   Setup preset: default, javascript, typescript, python, go, rust, csharp
 -y, --yes                 Skip prompts
 --no-git                  Skip git init
 --list-languages          Show available setup presets
