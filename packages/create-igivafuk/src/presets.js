@@ -309,7 +309,11 @@ Document package boundaries, data flow, and external integrations for {{PROJECT_
     files: [
       {
         path: 'pyproject.toml',
-        content: `[project]
+        content: `[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
 name = "{{PROJECT_SLUG}}"
 version = "0.1.0"
 requires-python = ">=3.11"
