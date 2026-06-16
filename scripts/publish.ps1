@@ -16,4 +16,7 @@ if (-not $env:NODE_AUTH_TOKEN) {
   }
 }
 
+npm config set @ursupp0rtmain:registry https://npm.pkg.github.com
+npm config set //npm.pkg.github.com/:_authToken $env:NODE_AUTH_TOKEN
+
 npm run publish:cli

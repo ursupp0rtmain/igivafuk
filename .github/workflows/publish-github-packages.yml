@@ -3,13 +3,17 @@ name: Publish to GitHub Packages
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   publish:
     name: Publish create-igivafuk and igivafuk
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      NODE_AUTH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -17,23 +21,22 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           registry-url: https://npm.pkg.github.com
           scope: '@ursupp0rtmain'
           cache: npm
 
+      - name: Verify GitHub Packages auth
+        run: npm whoami --registry=https://npm.pkg.github.com
+
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build CLI
         run: npm run build -w packages/create-igivafuk
 
       - name: Publish create-igivafuk
-        run: npm publish -w packages/create-igivafuk
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish -w packages/create-igivafuk --no-git-checks
 
       - name: Publish igivafuk
-        run: npm publish -w packages/igivafuk
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish -w packages/igivafuk --no-git-checks

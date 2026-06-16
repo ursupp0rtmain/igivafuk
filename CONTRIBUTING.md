@@ -35,8 +35,8 @@ Packages: `@ursupp0rtmain/create-igivafuk` and `@ursupp0rtmain/igivafuk`.
 
 ### Option A — GitHub Actions (recommended)
 
-1. Ensure **Settings → Actions → General → Workflow permissions** allows read and write.
-2. Run workflow: **Actions → Publish to GitHub Packages → Run workflow**
+1. Ensure **Settings → Actions → General → Workflow permissions** is set to **Read and write permissions** (required for `GITHUB_TOKEN` to publish packages).
+2. Run workflow: **Actions → Publish to GitHub Packages → Run workflow** (not the old "Publish to npm" workflow).
 
 Uses `GITHUB_TOKEN` automatically — no extra secret required.
 

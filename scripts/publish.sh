@@ -19,4 +19,7 @@ if [[ -z "${NODE_AUTH_TOKEN:-}" ]]; then
   fi
 fi
 
+npm config set @ursupp0rtmain:registry https://npm.pkg.github.com
+npm config set //npm.pkg.github.com/:_authToken "$NODE_AUTH_TOKEN"
+
 npm run publish:cli

@@ -48,9 +48,11 @@ npx @ursupp0rtmain/igivafuk doctor
 
 For private repos, authenticate with a GitHub token that has `read:packages`:
 
-```bash
+```ini
 //npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
 ```
+
+Without the scope registry above, npm looks on `registry.npmjs.org` and returns 404 for `@ursupp0rtmain/*`.
 
 ## What you get
 
