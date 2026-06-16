@@ -980,7 +980,7 @@ Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME
   "scripts": {
     "build": "npx tsc -p tsconfig.json",
     "typecheck": "npx tsc --noEmit",
-    "test": "npm run build && node --test dist/**/*.test.js"
+    "test": "npm run build && node --test"
   }
 }
 `
@@ -1314,9 +1314,13 @@ public static class Program
         content: `<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="4.2.3" />
+    <PackageReference Include="MSTest.TestFramework" Version="4.2.3" />
     <ProjectReference Include="../../src/{{PROJECT_PASCAL}}/{{PROJECT_PASCAL}}.csproj" />
   </ItemGroup>
 </Project>
@@ -1324,18 +1328,18 @@ public static class Program
       },
       {
         path: "tests/{{PROJECT_PASCAL}}.Tests/SmokeTests.cs",
-        content: `using {{PROJECT_PASCAL}};
+        content: `using Microsoft.VisualStudio.TestTools.UnitTesting;
+using {{PROJECT_PASCAL}};
 
 namespace {{PROJECT_PASCAL}}.Tests;
 
-public static class SmokeTests
+[TestClass]
+public sealed class SmokeTests
 {
-    public static void MessageIsReady()
+    [TestMethod]
+    public void MessageIsReady()
     {
-        if (Program.Message() != "{{PROJECT_SLUG}} is ready.")
-        {
-            throw new InvalidOperationException("Unexpected ready message.");
-        }
+        Assert.AreEqual("{{PROJECT_SLUG}} is ready.", Program.Message());
     }
 }
 `
