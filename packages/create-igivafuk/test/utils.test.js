@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { toKebabCase, toTitleCase, applyTemplate, buildTemplateVars } from '../src/utils.js';
+import { toKebabCase, toTitleCase, toIdentifier, applyTemplate, buildTemplateVars } from '../src/utils.js';
+import { resolveLanguagePreset } from '../src/presets.js';
 
 test('toKebabCase normalizes project names', () => {
   assert.equal(toKebabCase('My Awesome App'), 'my-awesome-app');
@@ -9,6 +10,11 @@ test('toKebabCase normalizes project names', () => {
 
 test('toTitleCase formats display names', () => {
   assert.equal(toTitleCase('my-awesome-app'), 'My Awesome App');
+});
+
+test('toIdentifier creates safe module names', () => {
+  assert.equal(toIdentifier('My Awesome App'), 'my_awesome_app');
+  assert.equal(toIdentifier('123 app'), 'project_123_app');
 });
 
 test('applyTemplate replaces placeholders', () => {
@@ -27,5 +33,11 @@ test('buildTemplateVars creates expected keys', () => {
   });
   assert.equal(vars.PROJECT_SLUG, 'my-app');
   assert.equal(vars.PROJECT_NAME, 'My App');
+  assert.equal(vars.PROJECT_MODULE, 'my_app');
   assert.equal(vars.IGIVAFUK_VERSION, '0.1.0');
+});
+
+test('resolveLanguagePreset supports aliases', () => {
+  assert.equal(resolveLanguagePreset('ts').id, 'typescript');
+  assert.equal(resolveLanguagePreset('golang').id, 'go');
 });

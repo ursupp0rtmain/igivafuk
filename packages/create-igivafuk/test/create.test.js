@@ -44,6 +44,46 @@ describe('create-igivafuk', () => {
     }
   });
 
+  test('scaffolds a language-specific project structure', async () => {
+    const projectName = 'typed-app';
+    const originalCwd = process.cwd();
+
+    try {
+      process.chdir(tempRoot);
+      await runCreate([
+        'node',
+        'create-igivafuk',
+        projectName,
+        '-d',
+        'Typed app',
+        '--language',
+        'typescript',
+        '-y',
+        '--no-git',
+      ]);
+
+      const projectDir = path.join(tempRoot, projectName);
+      const manifest = JSON.parse(await fs.readFile(path.join(projectDir, '.igivafuk.json'), 'utf8'));
+      const readme = await fs.readFile(path.join(projectDir, 'README.md'), 'utf8');
+
+      assert.equal(manifest.scaffold, 'typescript');
+      assert.equal(manifest.language, 'typescript');
+      assert.ok(readme.includes('Setup preset: **TypeScript** (`typescript`)'));
+      await fs.access(path.join(projectDir, 'package.json'));
+      await fs.access(path.join(projectDir, 'tsconfig.json'));
+      await fs.access(path.join(projectDir, 'src/index.ts'));
+      await fs.access(path.join(projectDir, 'test/index.test.ts'));
+      await fs.access(path.join(projectDir, 'types/.gitkeep'));
+
+      const check = await checkProject(projectDir);
+      assert.equal(check.healthy, true);
+      assert.equal(check.score, 100);
+    } finally {
+      process.chdir(originalCwd);
+      await fs.rm(path.join(tempRoot, projectName), { recursive: true, force: true });
+    }
+  });
+
   test('doctor reports missing files for empty directory', async () => {
     const emptyDir = path.join(tempRoot, 'empty');
     await fs.mkdir(emptyDir, { recursive: true });

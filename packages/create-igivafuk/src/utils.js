@@ -27,20 +27,40 @@ export function toTitleCase(value) {
     .join(' ');
 }
 
-export function buildTemplateVars({ projectName, description, version }) {
+export function toIdentifier(value) {
+  const identifier = toKebabCase(value).replaceAll('-', '_');
+  if (!identifier) return 'my_project';
+  if (/^\d/.test(identifier)) return `project_${identifier}`;
+  return identifier;
+}
+
+export function buildTemplateVars({ projectName, description, version, preset }) {
   const slug = toKebabCase(projectName);
   const title = toTitleCase(projectName);
+  const moduleName = toIdentifier(projectName);
+  const languageId = preset?.language ?? 'none';
 
-  return {
+  const vars = {
     PROJECT_NAME: title || 'My Project',
     PROJECT_SLUG: slug || 'my-project',
+    PROJECT_MODULE: moduleName,
+    PROJECT_PACKAGE: `com.example.${moduleName}`,
+    PROJECT_PACKAGE_PATH: `com/example/${moduleName}`,
     PROJECT_DESCRIPTION: description || 'A structured project built with igivafuk.',
+    SETUP_ID: preset?.id ?? 'default',
+    SETUP_LABEL: preset?.label ?? 'Minimal',
+    SETUP_LANGUAGE: languageId,
+    SETUP_DESCRIPTION: preset?.description ?? 'Language-neutral project guardrails.',
+    SETUP_STRUCTURE: preset?.structure ?? 'Add your stack-specific structure when the project is ready.',
     YEAR: String(new Date().getFullYear()),
     IGIVAFUK_VERSION: version,
     WEBSITE_URL: 'https://idontgivaf.uk',
     BRAND_NAME: 'igivafuk',
     TAGLINE: 'Structure over slop.',
   };
+
+  vars.SETUP_STRUCTURE = applyTemplate(vars.SETUP_STRUCTURE, vars);
+  return vars;
 }
 
 export function applyTemplate(content, vars) {

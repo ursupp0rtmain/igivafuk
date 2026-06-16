@@ -24,6 +24,13 @@ Skip prompts:
 npx create-igivafuk my-app -d "My awesome SaaS" -y
 ```
 
+Pick a language-specific setup:
+
+```bash
+npx create-igivafuk my-api --language go
+npx create-igivafuk my-app -l typescript
+```
+
 Check an existing project:
 
 ```bash
@@ -44,7 +51,15 @@ Every scaffolded project includes:
 | `.github/workflows/` | Changelog check on every PR |
 | `.igivafuk.json` | Manifest for `igivafuk doctor` |
 
-Minimal scaffold — no `src/`, `tests/`, `docs/`, `scripts/`, or issue templates.
+By default, igivafuk creates a minimal, language-neutral scaffold. For common stacks you can choose a setup preset that adds an idiomatic folder structure:
+
+| Preset | Structure focus |
+|--------|-----------------|
+| `javascript` | `src/`, `test/`, `config/`, `docs/`, `scripts/`, Node package |
+| `typescript` | TypeScript `src/` and `test/`, `types/`, `tsconfig.json`, Node package |
+| `python` | `src/<package>/`, `tests/`, `config/`, `docs/`, `notebooks/`, `pyproject.toml` |
+| `go` | `cmd/`, `internal/`, `pkg/`, `api/`, `configs/`, Go module |
+| `rust` | Cargo layout with `src/`, integration `tests/`, `examples/`, `benches/`, `crates/` |
 
 ## Commands
 
@@ -59,8 +74,10 @@ Minimal scaffold — no `src/`, `tests/`, `docs/`, `scripts/`, or issue template
 
 ```
 -d, --description <text>  Project description
+-l, --language <preset>   Setup preset: default, javascript, typescript, python, go, rust
 -y, --yes                 Skip prompts
 --no-git                  Skip git init
+--list-languages          Show available setup presets
 -h, --help                Show help
 ```
 

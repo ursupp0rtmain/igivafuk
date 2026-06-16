@@ -15,12 +15,12 @@ Replace this section with your product vision once you know what you're building
 ## Repository structure
 
 ```
-{{PROJECT_SLUG}}/
-├── .github/          # Changelog CI and PR template
-├── AGENTS.md         # Rules for AI agents
-├── CHANGELOG.md      # Project changelog (required on every PR)
-└── CONTRIBUTING.md   # Contribution workflow
+{{SETUP_STRUCTURE}}
 ```
+
+Setup preset: **{{SETUP_LABEL}}** (`{{SETUP_ID}}`)
+
+{{SETUP_DESCRIPTION}}
 
 ## Development workflow
 

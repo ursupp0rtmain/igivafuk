@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { intro, outro, text, confirm, spinner, cancel, isCancel } from '@clack/prompts';
+import { intro, outro, text, confirm, spinner, cancel, isCancel, select } from '@clack/prompts';
 import {
   buildTemplateVars,
   copyTemplate,
@@ -9,6 +9,13 @@ import {
   toKebabCase,
 } from './utils.js';
 import { BRAND_NAME, TAGLINE, WEBSITE_URL } from './constants.js';
+import {
+  DEFAULT_LANGUAGE_PRESET_ID,
+  LANGUAGE_PRESETS,
+  applyLanguagePreset,
+  formatLanguagePresetList,
+  resolveLanguagePreset,
+} from './presets.js';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
@@ -22,9 +29,11 @@ function parseArgs(argv) {
   const options = {
     projectName: undefined,
     description: undefined,
+    language: DEFAULT_LANGUAGE_PRESET_ID,
     yes: false,
     git: true,
     help: false,
+    listLanguages: false,
   };
 
   for (let i = 0; i < args.length; i += 1) {
@@ -35,6 +44,10 @@ function parseArgs(argv) {
       options.yes = true;
     } else if (arg === '--no-git') {
       options.git = false;
+    } else if (arg === '--language' || arg === '-l' || arg === '--template' || arg === '-t') {
+      options.language = args[++i];
+    } else if (arg === '--list-languages' || arg === '--list-templates') {
+      options.listLanguages = true;
     } else if (arg === '--description' || arg === '-d') {
       options.description = args[++i];
     } else if (!arg.startsWith('-') && !options.projectName) {
@@ -55,13 +68,16 @@ Usage:
 
 Options:
   -d, --description <text>  Project description
+  -l, --language <preset>   Setup preset: default, javascript, typescript, python, go, rust
   -y, --yes                 Skip prompts and use defaults
   --no-git                  Skip git init
+  --list-languages          Show available setup presets
   -h, --help                Show help
 
 Examples:
   npm create igivafuk@latest my-app
   npx create-igivafuk my-app -d "My awesome SaaS" -y
+  npx create-igivafuk api -l go
 
 Learn more: ${WEBSITE_URL}
 `);
@@ -75,10 +91,16 @@ export async function runCreate(argv = process.argv) {
     return;
   }
 
+  if (options.listLanguages) {
+    console.log(`${BRAND_NAME} setup presets:\n\n${formatLanguagePresetList()}`);
+    return;
+  }
+
   intro(` ${BRAND_NAME} — you said you didn't give a f***, turns out you do`);
 
   let projectName = options.projectName;
   let description = options.description ?? '';
+  let language = options.language;
   let initGitRepo = options.git;
 
   if (!options.yes) {
@@ -108,6 +130,22 @@ export async function runCreate(argv = process.argv) {
       process.exit(0);
     }
     description = descResult;
+    const initialPreset = resolveLanguagePreset(language) ?? resolveLanguagePreset(DEFAULT_LANGUAGE_PRESET_ID);
+
+    const languageResult = await select({
+      message: 'Setup preset',
+      initialValue: initialPreset.id,
+      options: LANGUAGE_PRESETS.map((preset) => ({
+        value: preset.id,
+        label: preset.label,
+        hint: preset.description,
+      })),
+    });
+    if (isCancel(languageResult)) {
+      cancel('Cancelled.');
+      process.exit(0);
+    }
+    language = languageResult;
 
     const gitResult = await confirm({
       message: 'Initialize git repository?',
@@ -126,6 +164,13 @@ export async function runCreate(argv = process.argv) {
     process.exit(1);
   }
 
+  const preset = resolveLanguagePreset(language);
+  if (!preset) {
+    console.error(`Error: unknown setup preset "${language}".`);
+    console.error(`Available presets:\n${formatLanguagePresetList()}`);
+    process.exit(1);
+  }
+
   const targetDir = path.resolve(process.cwd(), projectName);
 
   if (await pathExists(targetDir)) {
@@ -134,12 +179,13 @@ export async function runCreate(argv = process.argv) {
   }
 
   const version = getPackageVersion();
-  const vars = buildTemplateVars({ projectName, description, version });
+  const vars = buildTemplateVars({ projectName, description, version, preset });
   const templateDir = getTemplateDir();
   const s = spinner();
 
   s.start('Scaffolding structured project...');
   await copyTemplate({ templateDir, targetDir, vars });
+  await applyLanguagePreset({ targetDir, vars, preset });
 
   if (initGitRepo) {
     s.message('Initializing git...');
