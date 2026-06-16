@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-import 'create-igivafuk/dist/cli.js';
+import '@ursupp0rtmain/create-igivafuk/dist/cli.js';

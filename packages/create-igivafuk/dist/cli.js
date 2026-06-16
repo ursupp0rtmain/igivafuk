@@ -32,9 +32,12 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 
 // src/constants.js
-var BRAND_NAME, WEBSITE_URL, TAGLINE, REQUIRED_FILES, TEXT_EXTENSIONS;
+var NPM_SCOPE, PACKAGE_NAME, CLI_PACKAGE_NAME, BRAND_NAME, WEBSITE_URL, TAGLINE, REQUIRED_FILES, TEXT_EXTENSIONS;
 var init_constants = __esm({
   "src/constants.js"() {
+    NPM_SCOPE = "@ursupp0rtmain";
+    PACKAGE_NAME = "@ursupp0rtmain/create-igivafuk";
+    CLI_PACKAGE_NAME = "@ursupp0rtmain/igivafuk";
     BRAND_NAME = "igivafuk";
     WEBSITE_URL = "https://idontgivaf.uk";
     TAGLINE = "Structure over slop.";
@@ -744,6 +747,7 @@ function buildTemplateVars({ projectName, description, version }) {
     PROJECT_DESCRIPTION: description || "A structured project built with igivafuk.",
     YEAR: String((/* @__PURE__ */ new Date()).getFullYear()),
     IGIVAFUK_VERSION: version,
+    PACKAGE_NAME,
     WEBSITE_URL: "https://idontgivaf.uk",
     BRAND_NAME: "igivafuk",
     TAGLINE: "Structure over slop."
@@ -856,8 +860,8 @@ function printCreateHelp() {
 ${BRAND_NAME} \u2014 ${TAGLINE}
 
 Usage:
-  npm create igivafuk@latest <project-name>
-  npx create-igivafuk <project-name> [options]
+  npm create ${NPM_SCOPE}/igivafuk@latest <project-name>
+  npx ${PACKAGE_NAME} <project-name> [options]
 
 Options:
   -d, --description <text>  Project description
@@ -866,8 +870,8 @@ Options:
   -h, --help                Show help
 
 Examples:
-  npm create igivafuk@latest my-app
-  npx create-igivafuk my-app -d "My awesome SaaS" -y
+  npm create ${NPM_SCOPE}/igivafuk@latest my-app
+  npx ${PACKAGE_NAME} my-app -d "My awesome SaaS" -y
 
 Learn more: ${WEBSITE_URL}
 `);
@@ -1061,7 +1065,7 @@ Directory: ${options.directory}`);
   }
   if (!result.healthy) {
     console.log(`
-Fix it: npx create-igivafuk <name> for a fresh scaffold, or add missing files manually.`);
+Fix it: npx ${PACKAGE_NAME} <name> for a fresh scaffold, or add missing files manually.`);
     console.log(`Docs: ${WEBSITE_URL}`);
     process.exit(1);
   }
@@ -1092,8 +1096,8 @@ Options:
   -h, --help      Show help
 
 Quick start:
-  npm create igivafuk@latest my-app
-  npx igivafuk doctor
+  npm create ${NPM_SCOPE}/igivafuk@latest my-app
+  npx ${CLI_PACKAGE_NAME} doctor
 
 Website: ${WEBSITE_URL}
 `);

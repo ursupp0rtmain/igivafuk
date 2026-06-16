@@ -5,6 +5,6 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 
 test('igivafuk package resolves create-igivafuk', () => {
-  const pkg = require('create-igivafuk/package.json');
-  assert.equal(pkg.name, 'create-igivafuk');
+  const pkg = require('@ursupp0rtmain/create-igivafuk/package.json');
+  assert.equal(pkg.name, '@ursupp0rtmain/create-igivafuk');
 });

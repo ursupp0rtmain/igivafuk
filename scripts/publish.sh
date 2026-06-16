@@ -10,9 +10,13 @@ if ! grep -q '"publish:cli"' package.json 2>/dev/null; then
   exit 1
 fi
 
-if ! npm whoami >/dev/null 2>&1; then
-  echo "Not logged in to npm. Run: npm login"
-  exit 1
+if [[ -z "${NODE_AUTH_TOKEN:-}" ]]; then
+  if command -v gh >/dev/null 2>&1; then
+    export NODE_AUTH_TOKEN="$(gh auth token)"
+  else
+    echo "Set NODE_AUTH_TOKEN to a GitHub token with write:packages, or install gh and run gh auth login."
+    exit 1
+  fi
 fi
 
 npm run publish:cli

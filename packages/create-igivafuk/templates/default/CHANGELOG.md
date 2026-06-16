@@ -9,6 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial project scaffolded with [igivafuk]({{WEBSITE_URL}}) (`create-igivafuk@{{IGIVAFUK_VERSION}}`)
+- Initial project scaffolded with [igivafuk]({{WEBSITE_URL}}) (`{{PACKAGE_NAME}}@{{IGIVAFUK_VERSION}}`)
 - Agent-friendly repository structure with `AGENTS.md` and enforced changelog CI
 - Documentation placeholders and architecture decision record template

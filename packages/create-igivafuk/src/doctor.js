@@ -1,7 +1,7 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import { intro, outro } from '@clack/prompts';
-import { REQUIRED_FILES, BRAND_NAME, TAGLINE, WEBSITE_URL } from './constants.js';
+import { REQUIRED_FILES, BRAND_NAME, PACKAGE_NAME, TAGLINE, WEBSITE_URL } from './constants.js';
 import { pathExists } from './utils.js';
 
 function parseDoctorArgs(argv) {
@@ -119,7 +119,7 @@ export async function runDoctor(argv = process.argv) {
   }
 
   if (!result.healthy) {
-    console.log(`\nFix it: npx create-igivafuk <name> for a fresh scaffold, or add missing files manually.`);
+    console.log(`\nFix it: npx ${PACKAGE_NAME} <name> for a fresh scaffold, or add missing files manually.`);
     console.log(`Docs: ${WEBSITE_URL}`);
     process.exit(1);
   }

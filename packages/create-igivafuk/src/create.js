@@ -9,7 +9,7 @@ import {
   pathExists,
   toKebabCase,
 } from './utils.js';
-import { BRAND_NAME, TAGLINE, WEBSITE_URL } from './constants.js';
+import { BRAND_NAME, NPM_SCOPE, PACKAGE_NAME, TAGLINE, WEBSITE_URL } from './constants.js';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
@@ -51,8 +51,8 @@ export function printCreateHelp() {
 ${BRAND_NAME} — ${TAGLINE}
 
 Usage:
-  npm create igivafuk@latest <project-name>
-  npx create-igivafuk <project-name> [options]
+  npm create ${NPM_SCOPE}/igivafuk@latest <project-name>
+  npx ${PACKAGE_NAME} <project-name> [options]
 
 Options:
   -d, --description <text>  Project description
@@ -61,8 +61,8 @@ Options:
   -h, --help                Show help
 
 Examples:
-  npm create igivafuk@latest my-app
-  npx create-igivafuk my-app -d "My awesome SaaS" -y
+  npm create ${NPM_SCOPE}/igivafuk@latest my-app
+  npx ${PACKAGE_NAME} my-app -d "My awesome SaaS" -y
 
 Learn more: ${WEBSITE_URL}
 `);

@@ -6,10 +6,14 @@ if (-not (Select-String -Path package.json -Pattern 'publish:cli' -Quiet)) {
   exit 1
 }
 
-npm whoami 2>$null
-if ($LASTEXITCODE -ne 0) {
-  Write-Host "Not logged in to npm. Run: npm login"
-  exit 1
+if (-not $env:NODE_AUTH_TOKEN) {
+  $ghToken = gh auth token 2>$null
+  if ($LASTEXITCODE -eq 0 -and $ghToken) {
+    $env:NODE_AUTH_TOKEN = $ghToken
+  } else {
+    Write-Host "Set NODE_AUTH_TOKEN to a GitHub token with write:packages, or run: gh auth login"
+    exit 1
+  }
 }
 
 npm run publish:cli

@@ -1,4 +1,4 @@
-import { BRAND_NAME, TAGLINE, WEBSITE_URL } from './constants.js';
+import { BRAND_NAME, CLI_PACKAGE_NAME, NPM_SCOPE, PACKAGE_NAME, TAGLINE, WEBSITE_URL } from './constants.js';
 
 function printMainHelp() {
   console.log(`
@@ -15,8 +15,8 @@ Options:
   -h, --help      Show help
 
 Quick start:
-  npm create igivafuk@latest my-app
-  npx igivafuk doctor
+  npm create ${NPM_SCOPE}/igivafuk@latest my-app
+  npx ${CLI_PACKAGE_NAME} doctor
 
 Website: ${WEBSITE_URL}
 `);

@@ -6,31 +6,43 @@
 
 ## Quick start
 
+Packages are published on [GitHub Packages](https://github.com/ursupp0rtmain/igivafuk/packages). Add this to `~/.npmrc` (or project `.npmrc`):
+
+```ini
+@ursupp0rtmain:registry=https://npm.pkg.github.com
+```
+
+Then scaffold a project:
+
 ```bash
-npm create igivafuk@latest my-app
+npm create @ursupp0rtmain/igivafuk@latest my-app
 # or
-npx create-igivafuk my-app
+npx @ursupp0rtmain/create-igivafuk my-app
 ```
 
 Interactive mode (default):
 
 ```bash
-npx create-igivafuk
+npx @ursupp0rtmain/create-igivafuk
 ```
 
 Skip prompts:
 
 ```bash
-npx create-igivafuk my-app -d "My awesome SaaS" -y
+npx @ursupp0rtmain/create-igivafuk my-app -d "My awesome SaaS" -y
 ```
 
 Check an existing project:
 
 ```bash
-npx igivafuk doctor
+npx @ursupp0rtmain/igivafuk doctor
 ```
 
-Requires the `igivafuk` package on npm (published alongside `create-igivafuk`).
+For private repos, authenticate with a GitHub token that has `read:packages`:
+
+```bash
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+```
 
 ## What you get
 
@@ -51,10 +63,10 @@ Every scaffolded project includes:
 
 | Command | Description |
 |---------|-------------|
-| `npm create igivafuk@latest <name>` | Scaffold a new project |
-| `npx create-igivafuk <name>` | Same, via npx |
-| `npx igivafuk doctor [dir]` | Verify project structure (`igivafuk` package) |
-| `npx igivafuk create <name>` | Scaffold via main CLI (`igivafuk` package) |
+| `npm create @ursupp0rtmain/igivafuk@latest <name>` | Scaffold a new project |
+| `npx @ursupp0rtmain/create-igivafuk <name>` | Same, via npx |
+| `npx @ursupp0rtmain/igivafuk doctor [dir]` | Verify project structure |
+| `npx @ursupp0rtmain/igivafuk create <name>` | Scaffold via main CLI |
 
 ### Options
 
@@ -83,12 +95,13 @@ igivafuk scaffolds the **minimum viable structure** so agents (and you) build so
 This repo is a monorepo:
 
 ```
-packages/create-igivafuk/   # npm package (CLI + templates)
+packages/create-igivafuk/   # CLI + templates (@ursupp0rtmain/create-igivafuk)
+packages/igivafuk/          # doctor wrapper (@ursupp0rtmain/igivafuk)
 ```
 
 ```bash
-git clone https://github.com/ursupp0rtmain/startup.git
-cd startup
+git clone https://github.com/ursupp0rtmain/igivafuk.git
+cd igivafuk
 npm install
 npm test
 
@@ -97,16 +110,18 @@ npm run create-igivafuk -- my-test-app -y --no-git
 npx igivafuk doctor my-test-app
 ```
 
-## Publish to npm
+## Publish to GitHub Packages
 
 From the **repository root** (not `packages/create-igivafuk/`):
 
 ```bash
-npm install
+export NODE_AUTH_TOKEN="$(gh auth token)"
 npm run publish:cli
 ```
 
-Publishes both `create-igivafuk` and `igivafuk` packages. Order matters — `igivafuk` depends on `create-igivafuk`.
+Or run **Actions → Publish to GitHub Packages** in GitHub.
+
+Publishes `@ursupp0rtmain/create-igivafuk` first, then `@ursupp0rtmain/igivafuk` (dependency order).
 
 ## Links
 

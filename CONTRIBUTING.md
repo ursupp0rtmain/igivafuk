@@ -29,13 +29,16 @@ npm run create-igivafuk -- test-output -y --no-git
 npx igivafuk doctor test-output
 ```
 
-## Publishing to npm
+## Publishing to GitHub Packages
+
+Packages: `@ursupp0rtmain/create-igivafuk` and `@ursupp0rtmain/igivafuk`.
 
 ### Option A — GitHub Actions (recommended)
 
-1. Create an npm access token: https://www.npmjs.com/settings/~youruser/tokens (type: **Automation**)
-2. Add it to GitHub: **Repo → Settings → Secrets → Actions → `NPM_TOKEN`**
-3. Run workflow: **Actions → Publish to npm → Run workflow**
+1. Ensure **Settings → Actions → General → Workflow permissions** allows read and write.
+2. Run workflow: **Actions → Publish to GitHub Packages → Run workflow**
+
+Uses `GITHUB_TOKEN` automatically — no extra secret required.
 
 ### Option B — Local (repo root)
 
@@ -43,14 +46,14 @@ npx igivafuk doctor test-output
 
 ```bash
 git pull origin main
-npm login
+export NODE_AUTH_TOKEN="$(gh auth token)"   # needs write:packages
 ./scripts/publish.sh
 ```
 
 Windows PowerShell:
 
 ```powershell
-npm login
+$env:NODE_AUTH_TOKEN = gh auth token
 .\scripts\publish.ps1
 ```
 
@@ -58,9 +61,9 @@ Or step by step:
 
 ```bash
 npm install
-npm run build -w create-igivafuk
-npm publish -w create-igivafuk --access public
-npm publish -w igivafuk --access public
+npm run build -w packages/create-igivafuk
+npm publish -w packages/create-igivafuk
+npm publish -w packages/igivafuk
 ```
 
 ### Common mistakes
@@ -69,6 +72,7 @@ npm publish -w igivafuk --access public
 |---------|-----|
 | `cd packages/create-igivafuk` fails | You're in the wrong folder — use repo root |
 | `Cannot find package 'esbuild'` | Run `npm install` from **repo root** first |
+| `401 Unauthorized` on publish | Set `NODE_AUTH_TOKEN` with `write:packages` scope |
 | `igivafuk/igivafuk/` nested path | `cd` to the outer repo root with `package.json` |
 
-Bump version in `packages/create-igivafuk/package.json` and update `CHANGELOG.md` before publishing.
+Bump version in `packages/create-igivafuk/package.json` and `packages/igivafuk/package.json`, then update `CHANGELOG.md` before publishing.

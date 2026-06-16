@@ -674,6 +674,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 // src/constants.js
+var NPM_SCOPE = "@ursupp0rtmain";
+var PACKAGE_NAME = "@ursupp0rtmain/create-igivafuk";
 var BRAND_NAME = "igivafuk";
 var WEBSITE_URL = "https://idontgivaf.uk";
 var TAGLINE = "Structure over slop.";
@@ -711,6 +713,7 @@ function buildTemplateVars({ projectName, description, version }) {
     PROJECT_DESCRIPTION: description || "A structured project built with igivafuk.",
     YEAR: String((/* @__PURE__ */ new Date()).getFullYear()),
     IGIVAFUK_VERSION: version,
+    PACKAGE_NAME,
     WEBSITE_URL: "https://idontgivaf.uk",
     BRAND_NAME: "igivafuk",
     TAGLINE: "Structure over slop."
@@ -812,8 +815,8 @@ function printCreateHelp() {
 ${BRAND_NAME} \u2014 ${TAGLINE}
 
 Usage:
-  npm create igivafuk@latest <project-name>
-  npx create-igivafuk <project-name> [options]
+  npm create ${NPM_SCOPE}/igivafuk@latest <project-name>
+  npx ${PACKAGE_NAME} <project-name> [options]
 
 Options:
   -d, --description <text>  Project description
@@ -822,8 +825,8 @@ Options:
   -h, --help                Show help
 
 Examples:
-  npm create igivafuk@latest my-app
-  npx create-igivafuk my-app -d "My awesome SaaS" -y
+  npm create ${NPM_SCOPE}/igivafuk@latest my-app
+  npx ${PACKAGE_NAME} my-app -d "My awesome SaaS" -y
 
 Learn more: ${WEBSITE_URL}
 `);

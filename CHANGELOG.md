@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Publish to GitHub Packages only (`@ursupp0rtmain/create-igivafuk`, `@ursupp0rtmain/igivafuk`); npm registry workflow removed
+- Install commands now use scoped package names and require GitHub Packages registry config
+
 ## [0.1.3] - 2026-06-10
 
 ### Fixed

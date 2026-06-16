@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { TEXT_EXTENSIONS } from './constants.js';
+import { TEXT_EXTENSIONS, PACKAGE_NAME } from './constants.js';
 
 export function getTemplateDir() {
   const packageRoot = path.resolve(
@@ -37,6 +37,7 @@ export function buildTemplateVars({ projectName, description, version }) {
     PROJECT_DESCRIPTION: description || 'A structured project built with igivafuk.',
     YEAR: String(new Date().getFullYear()),
     IGIVAFUK_VERSION: version,
+    PACKAGE_NAME,
     WEBSITE_URL: 'https://idontgivaf.uk',
     BRAND_NAME: 'igivafuk',
     TAGLINE: 'Structure over slop.',

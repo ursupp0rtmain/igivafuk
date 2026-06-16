@@ -6,10 +6,10 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build -w create-igivafuk",
+    "build": "npm run build -w packages/create-igivafuk",
     "test": "npm test --workspaces --if-present",
     "create-igivafuk": "node packages/create-igivafuk/bin/create-igivafuk.js",
-    "publish:cli": "npm install && npm run build -w create-igivafuk && npm publish -w create-igivafuk --access public && npm publish -w igivafuk --access public"
+    "publish:cli": "npm install && npm run build -w packages/create-igivafuk && npm publish -w packages/create-igivafuk && npm publish -w packages/igivafuk"
   },
   "engines": {
     "node": ">=18"

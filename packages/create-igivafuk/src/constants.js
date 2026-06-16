@@ -1,4 +1,6 @@
-export const PACKAGE_NAME = 'create-igivafuk';
+export const NPM_SCOPE = '@ursupp0rtmain';
+export const PACKAGE_NAME = '@ursupp0rtmain/create-igivafuk';
+export const CLI_PACKAGE_NAME = '@ursupp0rtmain/igivafuk';
 export const BRAND_NAME = 'igivafuk';
 export const WEBSITE_URL = 'https://idontgivaf.uk';
 export const TAGLINE = 'Structure over slop.';
