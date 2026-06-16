@@ -829,13 +829,25 @@ function buildTemplateVars({ projectName, description, version, preset }) {
     SETUP_LANGUAGE: languageId,
     SETUP_DESCRIPTION: preset?.description ?? "Language-neutral project guardrails.",
     SETUP_STRUCTURE: preset?.structure ?? "Add your stack-specific structure when the project is ready.",
+    SETUP_LOCAL_SETUP: preset?.localSetup ?? "Document the stack, install command, test command, and runtime requirements once chosen.",
+    SETUP_AGENT_GUIDANCE: preset?.agentGuidance ?? "Keep the project small and add stack-specific structure only when the architecture needs it.",
+    SETUP_CONTRIBUTING_GUIDANCE: preset?.contributingGuidance ?? "Document stack-specific commands in README.md before relying on them in CI or reviews.",
+    SETUP_ARCHITECTURE_GUIDE: preset?.architectureGuide ?? "Document the important boundaries, data flows, and trade-offs for this project here.",
     YEAR: String((/* @__PURE__ */ new Date()).getFullYear()),
     IGIVAFUK_VERSION: version,
     WEBSITE_URL: "https://idontgivaf.uk",
     BRAND_NAME: "igivafuk",
     TAGLINE: "Structure over slop."
   };
-  vars.SETUP_STRUCTURE = applyTemplate(vars.SETUP_STRUCTURE, vars);
+  for (const key of [
+    "SETUP_STRUCTURE",
+    "SETUP_LOCAL_SETUP",
+    "SETUP_AGENT_GUIDANCE",
+    "SETUP_CONTRIBUTING_GUIDANCE",
+    "SETUP_ARCHITECTURE_GUIDE"
+  ]) {
+    vars[key] = applyTemplate(vars[key], vars);
+  }
   return vars;
 }
 function applyTemplate(content, vars) {
@@ -949,6 +961,20 @@ var init_presets = __esm({
 +-- CHANGELOG.md
 +-- CONTRIBUTING.md
 +-- README.md`,
+        localSetup: `No runtime stack is selected yet.
+
+Before adding source code, document the chosen language, package manager, install command, test command, and build command here.`,
+        agentGuidance: `This project is intentionally language-neutral.
+
+- Do not add framework folders until a stack is chosen.
+- Keep new files grouped by purpose and document any new conventions in README.md.
+- If a language is selected later, prefer regenerating or mirroring one of the language presets instead of inventing an ad hoc layout.`,
+        contributingGuidance: `Before the first implementation PR, add the chosen stack commands to README.md:
+
+- install command
+- test command
+- build command
+- lint/format command, if used`,
         directories: [],
         files: []
       },
@@ -968,6 +994,41 @@ var init_presets = __esm({
 |   +-- architecture.md
 +-- scripts/
 +-- package.json`,
+        localSetup: `Use Node.js 18 or newer.
+
+\`\`\`bash
+npm install
+npm test
+npm start
+\`\`\`
+
+Keep application code in \`src/\`, tests in \`test/\`, operational scripts in \`scripts/\`, and runtime configuration examples in \`config/\`.`,
+        agentGuidance: `JavaScript-specific rules:
+
+- Keep ESM imports explicit and include file extensions for local imports.
+- Put runnable code in \`src/\`; keep tests in \`test/\` using \`node:test\`.
+- Do not commit \`node_modules/\`, build output, coverage, or secrets.
+- Add dependencies only when the standard library or a small local helper is not enough.`,
+        contributingGuidance: `For JavaScript changes:
+
+\`\`\`bash
+npm install
+npm test
+\`\`\`
+
+Update tests in \`test/\` with behavior changes and keep public exports small and intentional.`,
+        architectureGuide: `# Architecture
+
+## JavaScript boundaries
+
+- \`src/\` contains runtime code.
+- \`test/\` contains Node test runner tests.
+- \`config/\` is for checked-in examples and non-secret defaults.
+- \`scripts/\` is for developer or release automation.
+
+## Decisions
+
+Record module boundaries, external dependencies, and runtime assumptions for {{PROJECT_NAME}} here.`,
         directories: ["config", "docs", "scripts", "src", "test"],
         files: [
           {
@@ -1010,9 +1071,7 @@ test('main returns a ready message', () => {
           },
           {
             path: "docs/architecture.md",
-            content: `# Architecture
-
-Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+            content: `{{SETUP_ARCHITECTURE_GUIDE}}
 `
           },
           { path: "config/.gitkeep", content: "" },
@@ -1037,6 +1096,42 @@ Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME
 +-- scripts/
 +-- package.json
 +-- tsconfig.json`,
+        localSetup: `Use Node.js 18 or newer.
+
+\`\`\`bash
+npm install
+npm run typecheck
+npm test
+\`\`\`
+
+Keep TypeScript source in \`src/\`, tests in \`test/\`, shared declarations in \`types/\`, and generated JavaScript in \`dist/\`.`,
+        agentGuidance: `TypeScript-specific rules:
+
+- Keep \`strict\` TypeScript enabled; do not silence type errors with \`any\` unless the boundary is documented.
+- Use explicit exports from \`src/\` and keep test files in \`test/\`.
+- Import compiled-relative paths the NodeNext way, including \`.js\` extensions in TypeScript imports.
+- This preset is framework-neutral; do not add Angular, React, Next.js, or NestJS conventions unless the project explicitly adopts that framework.`,
+        contributingGuidance: `For TypeScript changes:
+
+\`\`\`bash
+npm install
+npm run typecheck
+npm test
+\`\`\`
+
+Update \`types/\` only for shared declarations. Keep generated \`dist/\` output out of source review unless release policy requires it.`,
+        architectureGuide: `# Architecture
+
+## TypeScript boundaries
+
+- \`src/\` contains typed runtime code.
+- \`test/\` contains typed tests that compile before execution.
+- \`types/\` contains shared declarations only when needed.
+- \`config/\` and \`scripts/\` stay separate from runtime modules.
+
+## Framework note
+
+This is a framework-neutral TypeScript setup. If {{PROJECT_NAME}} adopts Angular, React, Next.js, or NestJS, document the framework-specific app boundaries here.`,
         directories: ["config", "docs", "scripts", "src", "test", "types"],
         files: [
           {
@@ -1091,9 +1186,7 @@ test('main returns a ready message', () => {
           },
           {
             path: "docs/architecture.md",
-            content: `# Architecture
-
-Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+            content: `{{SETUP_ARCHITECTURE_GUIDE}}
 `
           },
           { path: "config/.gitkeep", content: "" },
@@ -1120,6 +1213,42 @@ Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME
 +-- notebooks/
 +-- scripts/
 +-- pyproject.toml`,
+        localSetup: `Use Python 3.11 or newer.
+
+\`\`\`bash
+python -m venv .venv
+. .venv/bin/activate
+python -m pip install -e .
+python -m pytest
+\`\`\`
+
+Keep importable package code under \`src/{{PROJECT_MODULE}}/\`, tests in \`tests/\`, and exploratory notebooks in \`notebooks/\`.`,
+        agentGuidance: `Python-specific rules:
+
+- Keep the \`src/\` layout intact so tests import the installed package, not the working directory by accident.
+- Put package code in \`src/{{PROJECT_MODULE}}/\` and tests in \`tests/\`.
+- Do not commit virtual environments, caches, notebooks with secrets, or generated data.
+- Prefer small modules with typed function signatures for public boundaries.`,
+        contributingGuidance: `For Python changes:
+
+\`\`\`bash
+python -m pip install -e .
+python -m pytest
+\`\`\`
+
+Add or update tests in \`tests/\` for behavior changes and document new runtime dependencies in \`pyproject.toml\`.`,
+        architectureGuide: `# Architecture
+
+## Python boundaries
+
+- \`src/{{PROJECT_MODULE}}/\` contains importable package code.
+- \`tests/\` contains pytest tests.
+- \`notebooks/\` is for exploration only; production logic belongs in \`src/\`.
+- \`config/\` is for non-secret defaults and examples.
+
+## Decisions
+
+Document package boundaries, data flow, and external integrations for {{PROJECT_NAME}} here.`,
         directories: ["config", "docs", "notebooks", "scripts", "src/{{PROJECT_MODULE}}", "tests"],
         files: [
           {
@@ -1160,9 +1289,7 @@ def test_main_returns_ready_message() -> None:
           },
           {
             path: "docs/architecture.md",
-            content: `# Architecture
-
-Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+            content: `{{SETUP_ARCHITECTURE_GUIDE}}
 `
           },
           { path: "config/.gitkeep", content: "" },
@@ -1191,6 +1318,40 @@ Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME
 |   +-- architecture.md
 +-- scripts/
 +-- go.mod`,
+        localSetup: `Use Go 1.22 or newer.
+
+\`\`\`bash
+go test ./...
+go run ./cmd/{{PROJECT_SLUG}}
+\`\`\`
+
+Keep binaries under \`cmd/\`, private application code under \`internal/\`, reusable packages under \`pkg/\`, and API contracts under \`api/\`.`,
+        agentGuidance: `Go-specific rules:
+
+- Keep executable entrypoints in \`cmd/{{PROJECT_SLUG}}/\`.
+- Keep private application code under \`internal/\`; only use \`pkg/\` for reusable public packages.
+- Run \`gofmt\` on changed Go files.
+- Avoid global state unless it is an explicit process-level boundary.`,
+        contributingGuidance: `For Go changes:
+
+\`\`\`bash
+gofmt -w <changed-go-files>
+go test ./...
+\`\`\`
+
+Add tests next to the package they exercise and keep command wiring separate from business logic.`,
+        architectureGuide: `# Architecture
+
+## Go boundaries
+
+- \`cmd/{{PROJECT_SLUG}}/\` contains the executable entrypoint.
+- \`internal/app/\` contains private application logic.
+- \`pkg/\` is reserved for reusable packages with stable APIs.
+- \`api/\` is for schemas, contracts, or protocol definitions.
+
+## Decisions
+
+Document package ownership, dependency direction, and external service boundaries for {{PROJECT_NAME}} here.`,
         directories: ["api", "cmd/{{PROJECT_SLUG}}", "configs", "docs", "internal/app", "pkg", "scripts"],
         files: [
           {
@@ -1239,9 +1400,7 @@ func TestMessage(t *testing.T) {
           },
           {
             path: "docs/architecture.md",
-            content: `# Architecture
-
-Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+            content: `{{SETUP_ARCHITECTURE_GUIDE}}
 `
           },
           { path: "api/.gitkeep", content: "" },
@@ -1268,6 +1427,41 @@ Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME
 |   +-- architecture.md
 +-- examples/
 +-- Cargo.toml`,
+        localSetup: `Use the stable Rust toolchain.
+
+\`\`\`bash
+cargo test
+cargo run
+\`\`\`
+
+Keep library code in \`src/lib.rs\`, binary wiring in \`src/main.rs\`, integration tests in \`tests/\`, and examples in \`examples/\`.`,
+        agentGuidance: `Rust-specific rules:
+
+- Keep reusable behavior in the library crate; keep \`main.rs\` thin.
+- Prefer explicit error types and avoid \`unwrap()\` outside tests or examples.
+- Run \`cargo fmt\` before committing Rust changes.
+- Use \`crates/\` only when the project truly needs a workspace split.`,
+        contributingGuidance: `For Rust changes:
+
+\`\`\`bash
+cargo fmt
+cargo test
+\`\`\`
+
+Add unit tests near the code and integration tests under \`tests/\` for public behavior.`,
+        architectureGuide: `# Architecture
+
+## Rust boundaries
+
+- \`src/lib.rs\` contains reusable crate behavior.
+- \`src/main.rs\` contains binary startup and IO wiring.
+- \`tests/\` contains integration tests.
+- \`examples/\` demonstrates public usage.
+- \`crates/\` is reserved for future workspace members.
+
+## Decisions
+
+Document crate boundaries, error handling strategy, and ownership of external integrations for {{PROJECT_NAME}} here.`,
         directories: ["benches", "crates", "docs", "examples", "src", "tests"],
         files: [
           {
@@ -1304,9 +1498,7 @@ fn message_is_ready() {
           },
           {
             path: "docs/architecture.md",
-            content: `# Architecture
-
-Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+            content: `{{SETUP_ARCHITECTURE_GUIDE}}
 `
           },
           { path: "benches/.gitkeep", content: "" },
@@ -1334,6 +1526,41 @@ Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME
 |   +-- architecture.md
 +-- scripts/
 +-- Directory.Build.props`,
+        localSetup: `Use .NET 8 SDK or newer.
+
+\`\`\`bash
+dotnet build
+dotnet test
+dotnet run --project src/{{PROJECT_PASCAL}}/{{PROJECT_PASCAL}}.csproj
+\`\`\`
+
+Keep production projects under \`src/\`, test projects under \`tests/\`, and shared build settings in \`Directory.Build.props\`.`,
+        agentGuidance: `C#/.NET-specific rules:
+
+- Keep namespaces aligned with the generated project name \`{{PROJECT_PASCAL}}\`.
+- Keep production projects under \`src/\` and test projects under \`tests/\`.
+- Use nullable reference types and treat warnings as errors.
+- Do not mix infrastructure scripts, app code, and test code in the same project folder.`,
+        contributingGuidance: `For C#/.NET changes:
+
+\`\`\`bash
+dotnet build
+dotnet test
+\`\`\`
+
+Add tests under \`tests/{{PROJECT_PASCAL}}.Tests/\` and keep shared MSBuild settings in \`Directory.Build.props\`.`,
+        architectureGuide: `# Architecture
+
+## C#/.NET boundaries
+
+- \`src/{{PROJECT_PASCAL}}/\` contains production code for the main project.
+- \`tests/{{PROJECT_PASCAL}}.Tests/\` contains tests for public behavior.
+- \`Directory.Build.props\` contains shared compiler and build settings.
+- \`config/\` is for non-secret configuration examples.
+
+## Decisions
+
+Document project boundaries, dependency direction, and runtime hosting assumptions for {{PROJECT_NAME}} here.`,
         directories: [
           "config",
           "docs",
@@ -1415,9 +1642,7 @@ public sealed class SmokeTests
           },
           {
             path: "docs/architecture.md",
-            content: `# Architecture
-
-Document the important boundaries, data flows, and trade-offs for {{PROJECT_NAME}} here.
+            content: `{{SETUP_ARCHITECTURE_GUIDE}}
 `
           },
           { path: "config/.gitkeep", content: "" },
