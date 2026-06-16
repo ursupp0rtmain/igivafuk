@@ -978,11 +978,13 @@ var init_presets = __esm({
           },
           {
             path: "src/index.js",
-            content: `export function main() {
+            content: `import { pathToFileURL } from 'node:url';
+
+export function main() {
   return '{{PROJECT_SLUG}} is ready.';
 }
 
-if (import.meta.url === \`file://\${process.argv[1]}\`) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   console.log(main());
 }
 `
